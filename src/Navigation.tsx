@@ -1,17 +1,17 @@
-import { GiBabyBottle, GiBattleship, GiTicTacToe } from "react-icons/gi";
-import {MdAccountCircle, MdDarkMode, MdGridOff, MdLightMode} from "react-icons/md";
+import { GiBattleship, GiTicTacToe } from "react-icons/gi";
 import {
-  PiPersonArmsSpread,
-  PiPersonSimpleBold,
-  PiSignIn,
-  PiSignInBold,
-} from "react-icons/pi";
+  MdAccountCircle,
+  MdDarkMode,
+  MdGridOff,
+  MdLightMode,
+} from "react-icons/md";
+import { PiPersonSimpleBold, PiSignInBold } from "react-icons/pi";
 import { CgDarkMode } from "react-icons/cg";
 
 function Navigation() {
   const iconRightSize = "2rem";
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand-sm bg-body-tertiary">
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
           <GiTicTacToe size={"3.5rem"} />
@@ -82,7 +82,6 @@ function Navigation() {
               </a>
             </li>
           </ul>
-
           <div className={"d-flex gap-4"}>
             <li className="d-flex">
               <div className={"dropdown nav-item"}>
@@ -102,7 +101,7 @@ function Navigation() {
               </div>
             </li>
 
-            <li className={"d-flex"}>
+            <li className={"d-flex flex-row"}>
               <div className={"dropdown nav-item"}>
                 <MdDarkMode
                   className={"nav-link dropdown-toggle"}
