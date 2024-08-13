@@ -12,7 +12,7 @@ import {NavLink} from "react-router-dom";
 function Navigation() {
   const iconRightSize = "2rem";
   return (
-    <nav className="navbar navbar-expand-sm bg-body-tertiary">
+    <nav className="navbar navbar-expand-sm bg-body-secondary">
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">
           <GiTicTacToe size={"3.5rem"} />

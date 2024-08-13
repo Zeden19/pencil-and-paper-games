@@ -5,7 +5,7 @@ function Layout() {
   return (
     <>
       <Navigation />
-      <Outlet/>
+      <main><Outlet/></main>
     </>
   );
 }
