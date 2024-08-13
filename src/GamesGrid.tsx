@@ -9,21 +9,25 @@ const games = [
     label: "Tic Tac toe",
     description: "The Most Simple of Simple Games.",
     img: tictactoe,
+    url: "/tictactoe",
   },
   {
     label: "Connect 4",
     description: "4 In a Row Grants a Win!",
     img: connect4,
+    url: "/connect4",
   },
   {
     label: "Hangman",
     description: "Guess the Word, Letter by Letter.",
     img: hangman,
+    url: "/hangman",
   },
   {
     label: "Battleship",
     description: "Press the Assault, Sink the Enemy Fleet!",
     img: battleship,
+    url: "/battleship",
   },
 ];
 
@@ -39,6 +43,7 @@ function GamesGrid() {
               img={game.img}
               label={game.label}
               description={game.description}
+              url={game.url}
             />
           </div>
         ))}

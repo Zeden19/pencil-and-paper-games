@@ -1,12 +1,12 @@
 import "./App.css";
 import Navigation from "./Navigation.tsx";
-import Home from "./Home.tsx";
+import HomePage from "./pages/HomePage.tsx";
 
 function App() {
 
   return <>
     <Navigation/>
-    <Home/>
+    <HomePage/>
   </>;
 }
 

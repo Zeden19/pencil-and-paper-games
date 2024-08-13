@@ -1,7 +1,6 @@
-import GamesGrid from "./GamesGrid.tsx";
+import GamesGrid from "../GamesGrid.tsx";
 
-
-function Home() {
+function HomePage() {
   return (
     <div className={"container-fluid"}>
       <h2 className={"h2 text-center my-4"}>Pencil&PaperGames.com</h2>
@@ -11,4 +10,4 @@ function Home() {
   )
 }
 
-export default Home;
+export default HomePage;
