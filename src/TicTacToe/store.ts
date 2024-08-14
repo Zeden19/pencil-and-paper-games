@@ -1,6 +1,4 @@
 import { create } from "zustand";
-import {Simulate} from "react-dom/test-utils";
-import playing = Simulate.playing;
 
 interface TicTacToeStore {
   board: string[][];
@@ -12,6 +10,7 @@ interface TicTacToeStore {
   setPlaying: () => void;
   setVsCpu: () => void;
   setTurn: () => void;
+  reset: () => void;
 }
 
 const useTicTacToeStore = create<TicTacToeStore>((setState) => ({
@@ -39,6 +38,15 @@ const useTicTacToeStore = create<TicTacToeStore>((setState) => ({
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
   setTurn: () =>
     setState((state) => ({ turn: state.turn === "x" ? "o" : "x" })),
+  reset: () =>
+    setState((state) => ({
+      playing: !state.playing,
+      board: [
+        ["empty", "empty", "empty"],
+        ["empty", "empty", "empty"],
+        ["empty", "empty", "empty"],
+      ],
+    })),
 }));
 
 export default useTicTacToeStore;

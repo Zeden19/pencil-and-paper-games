@@ -1,6 +1,4 @@
-import { useState } from "react";
 import TicTacToeGrid from "../TicTacToe/TicTacToeGrid.tsx";
-import { useStore } from "zustand";
 import useTicTacToeStore from "../TicTacToe/store.ts";
 
 //todo: make board taller
@@ -10,6 +8,7 @@ function TicTacToePage() {
   const setPlaying = useTicTacToeStore((state) => state.setPlaying);
   const setVsCpu = useTicTacToeStore((state) => state.setVsCpu);
   const vsCpu = useTicTacToeStore((state) => state.vsCpu);
+  const reset = useTicTacToeStore(state => state.reset);
 
   return (
     <div className={"container-fluid text-center bg-body-tertiary pb-3"}>
@@ -21,7 +20,7 @@ function TicTacToePage() {
       <TicTacToeGrid/>
 
       <button
-        onClick={() => setPlaying()}
+        onClick={() => playing ? reset() : setPlaying()}
         className={"btn btn-primary d-block my-2 px-4 m-auto"}
       >
         {playing ? "Reset" : "Play"}
