@@ -1,14 +1,21 @@
-interface Props {
-  board: string[][];
-  turn: "x" | "o";
-  handleTileClick: (indexRow: number, index: number) => void;
-}
+import useTicTacToeStore from "./store.ts";
 
-function TicTacToeGrid({ board, turn, handleTileClick }: Props) {
+function TicTacToeGrid() {
+  const handleTileClick = useTicTacToeStore(state => state.handleTileClick);
+  const board = useTicTacToeStore(state => state.board);
+  const playing = useTicTacToeStore(state => state.playing);
+  const setTurn = useTicTacToeStore(state => state.setTurn);
+
   function renderBoard(indexRow: number, index: number, title: string) {
     const key = indexRow.toString() + " " + index.toString();
-    const onClick = () => handleTileClick(indexRow, index);
-    
+    const onClick = () => {
+      console.log()
+      if (!playing) return;
+      if (board[index][indexRow] !== "empty") return;
+      
+      handleTileClick(indexRow, index);
+      setTurn();
+    };
 
     if (
       (indexRow === 0 && index === 0) ||
