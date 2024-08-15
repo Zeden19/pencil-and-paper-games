@@ -5,48 +5,56 @@ interface TicTacToeStore {
   vsCpu: boolean;
   turn: "x" | "o";
   playing: boolean;
+  winner: string;
 
   handleTileClick: (indexRow: number, index: number) => void;
   setPlaying: () => void;
   setVsCpu: () => void;
   setTurn: () => void;
   reset: () => void;
+  setWinner: (winner: string) => void;
 }
 
+const emptyBoard = [
+  ["empty", "empty", "empty"],
+  ["empty", "empty", "empty"],
+  ["empty", "empty", "empty"],
+];
 const useTicTacToeStore = create<TicTacToeStore>((setState) => ({
-  board: [
-    ["empty", "empty", "empty"],
-    ["empty", "empty", "empty"],
-    ["empty", "empty", "empty"],
-  ],
+  board: emptyBoard,
   vsCpu: true,
   turn: "x",
   playing: false,
+  winner: "",
 
-  handleTileClick: (indexRow: number, index: number) => {
+  handleTileClick: (indexDown: number, indexRight: number) => {
     setState((state) => ({
-      board: state.board.map((column, rowIndex) =>
-        rowIndex === index
-          ? column.map((tile, tileIndex) =>
-              tileIndex === indexRow ? state.turn : tile,
+      board: state.board.map((row, rowIndex) =>
+        rowIndex === indexDown
+          ? row.map((tile, tileIndex) =>
+              tileIndex === indexRight ? state.turn : tile,
             )
-          : column,
+          : row,
       ),
     }));
   },
-  setPlaying: () => setState((state) => ({ playing: !state.playing })),
+  setPlaying: () =>
+    setState((state) => ({
+      playing: !state.playing,
+      board: emptyBoard,
+      winner: "",
+    })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
   setTurn: () =>
     setState((state) => ({ turn: state.turn === "x" ? "o" : "x" })),
   reset: () =>
     setState((state) => ({
       playing: !state.playing,
-      board: [
-        ["empty", "empty", "empty"],
-        ["empty", "empty", "empty"],
-        ["empty", "empty", "empty"],
-      ],
+      board: emptyBoard,
+      winner: "",
     })),
+  setWinner: (winner) =>
+    setState((state) => ({ winner: winner, playing: !state.playing })),
 }));
 
 export default useTicTacToeStore;

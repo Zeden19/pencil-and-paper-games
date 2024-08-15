@@ -8,7 +8,9 @@ function TicTacToePage() {
   const setPlaying = useTicTacToeStore((state) => state.setPlaying);
   const setVsCpu = useTicTacToeStore((state) => state.setVsCpu);
   const vsCpu = useTicTacToeStore((state) => state.vsCpu);
-  const reset = useTicTacToeStore(state => state.reset);
+  const reset = useTicTacToeStore((state) => state.reset);
+  const winner = useTicTacToeStore((state) => state.winner);
+  const turn = useTicTacToeStore((state) => state.turn);
 
   return (
     <div className={"container-fluid text-center bg-body-tertiary pb-3"}>
@@ -17,16 +19,23 @@ function TicTacToePage() {
       <p>
         {vsCpu ? "Player" : "Player 1"}: X | {vsCpu ? " Cpu" : " Player 2"}: O
       </p>
-      <TicTacToeGrid/>
+      
+      {playing && turn + " Turn"}
+      
+      {winner && winner.toUpperCase() + " Wins!"} {/* JS lol */}
+      
+
+      <TicTacToeGrid />
 
       <button
-        onClick={() => playing ? reset() : setPlaying()}
+        onClick={() => (playing ? reset() : setPlaying())}
         className={"btn btn-primary d-block my-2 px-4 m-auto"}
       >
         {playing ? "Reset" : "Play"}
       </button>
 
       <button
+        disabled={playing}
         onClick={() => setVsCpu()}
         className={"btn btn-primary d-block my-2 px-4 m-auto"}
       >
