@@ -1,8 +1,6 @@
 import TicTacToeGrid from "../TicTacToe/TicTacToeGrid.tsx";
 import useTicTacToeStore from "../TicTacToe/store.ts";
 
-//todo: make board taller
-// todo: if needed, make board width smaller on large devices
 function TicTacToePage() {
   const playing = useTicTacToeStore((state) => state.playing);
   const setPlaying = useTicTacToeStore((state) => state.setPlaying);
@@ -15,15 +13,17 @@ function TicTacToePage() {
   return (
     <div className={"container-fluid text-center bg-body-tertiary pb-3"}>
       <h2 className={"h2 py-4"}>TicTacToe</h2>
-
       <p>
         {vsCpu ? "Player" : "Player 1"}: X | {vsCpu ? " Cpu" : " Player 2"}: O
       </p>
-      
-      {playing && turn + " Turn"}
-      
-      {winner && winner.toUpperCase() + " Wins!"} {/* JS lol */}
-      
+
+      <p className={"h4"}>
+        {playing
+          ? turn.toUpperCase() + " Turn"
+          : winner
+            ? winner.toUpperCase() + " Wins!"
+            : "Click Start to Play"}
+      </p>
 
       <TicTacToeGrid />
 

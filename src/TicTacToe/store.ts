@@ -12,16 +12,16 @@ interface TicTacToeStore {
   setVsCpu: () => void;
   setTurn: () => void;
   reset: () => void;
-  setWinner: (winner: string) => void;
+  setWinner: (winner: string, winningBoard? : string[][]) => void;
 }
 
-const emptyBoard = [
-  ["empty", "empty", "empty"],
-  ["empty", "empty", "empty"],
-  ["empty", "empty", "empty"],
+const Board = [
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
 ];
 const useTicTacToeStore = create<TicTacToeStore>((setState) => ({
-  board: emptyBoard,
+  board: Board,
   vsCpu: true,
   turn: "x",
   playing: false,
@@ -41,7 +41,7 @@ const useTicTacToeStore = create<TicTacToeStore>((setState) => ({
   setPlaying: () =>
     setState((state) => ({
       playing: !state.playing,
-      board: emptyBoard,
+      board: Board,
       winner: "",
     })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
@@ -50,11 +50,11 @@ const useTicTacToeStore = create<TicTacToeStore>((setState) => ({
   reset: () =>
     setState((state) => ({
       playing: !state.playing,
-      board: emptyBoard,
+      board: Board,
       winner: "",
     })),
-  setWinner: (winner) =>
-    setState((state) => ({ winner: winner, playing: !state.playing })),
+  setWinner: (winner, winningBoard) =>
+    setState((state) => ({ winner: winner, playing: !state.playing, board: winningBoard })),
 }));
 
 export default useTicTacToeStore;
