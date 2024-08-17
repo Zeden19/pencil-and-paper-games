@@ -1,6 +1,4 @@
 import useTicTacToeStore from "./store.ts";
-import thickO from "../assets/thickO.png";
-import thickX from "../assets/thickX.png";
 
 function TicTacToeGrid() {
   const { board, handleTileClick, playing, turn, setTurn, setWinner } =
@@ -8,61 +6,73 @@ function TicTacToeGrid() {
 
   const isWinner = (indexDown: number, indexRight: number) => {
     const newBoard = useTicTacToeStore.getState().board; // getting the new state
-
-    // check right
-    if (
-      newBoard[indexDown][0] === newBoard[indexDown][1] &&
-      newBoard[indexDown][1] === newBoard[indexDown][2]
-    ) {
-      newBoard[indexDown][0] = "w" + newBoard[indexDown][0];
-      newBoard[indexDown][1] = "w" + newBoard[indexDown][1];
-      newBoard[indexDown][2] = "w" + newBoard[indexDown][2];
+    const markWinner = (indices: [number[], number[], number[]]) => {
+      indices.forEach(
+        (i) => (newBoard[i[0]][i[1]] = "w" + newBoard[i[0]][i[1]]),
+      );
       setWinner(turn, newBoard);
       return true;
-    }
-    // check down
+    };
+
+    // Check row
     if (
-      newBoard[0][indexRight] === newBoard[1][indexRight] &&
-      newBoard[1][indexRight] === newBoard[2][indexRight]
+      newBoard[indexDown].every(
+        (cell) => cell === newBoard[indexDown][0] && cell !== "",
+      )
     ) {
-      newBoard[0][indexRight] = "w" + newBoard[0][indexRight];
-      newBoard[1][indexRight] = "w" + newBoard[1][indexRight];
-      newBoard[2][indexRight] = "w" + newBoard[2][indexRight];
-      setWinner(turn, newBoard);
-      return true;
+      return markWinner([
+        [indexDown, 0],
+        [indexDown, 1],
+        [indexDown, 2],
+      ]);
     }
 
-    // check diagonal top left
+    // Check column
+    if (
+      newBoard.every(
+        (row) =>
+          row[indexRight] === newBoard[0][indexRight] && row[indexRight] !== "",
+      )
+    ) {
+      return markWinner([
+        [0, indexRight],
+        [1, indexRight],
+        [2, indexRight],
+      ]);
+    }
+
+    // Check diagonal top-left to bottom-right
     if (
       newBoard[0][0] === newBoard[1][1] &&
       newBoard[1][1] === newBoard[2][2] &&
       newBoard[0][0] !== ""
     ) {
-      newBoard[0][0] = "w" + newBoard[0][0];
-      newBoard[1][1] = "w" + newBoard[1][1];
-      newBoard[2][2] = "w" + newBoard[2][2];
-      setWinner(turn, newBoard);
-      return true;
+      return markWinner([
+        [0, 0],
+        [1, 1],
+        [2, 2],
+      ]);
     }
 
-    // check diagonal top right
+    // Check diagonal top-right to bottom-left
     if (
       newBoard[0][2] === newBoard[1][1] &&
       newBoard[1][1] === newBoard[2][0] &&
       newBoard[0][2] !== ""
     ) {
-      newBoard[0][2] = "w" + newBoard[0][2];
-      newBoard[1][1] = "w" + newBoard[1][1];
-      newBoard[2][0] = "w" + newBoard[2][0];
-      setWinner(turn, newBoard);
-      return true;
+      return markWinner([
+        [0, 2],
+        [1, 1],
+        [2, 0],
+      ]);
     }
 
-    // check no winner
-    if (!newBoard.some((row) => row.some((tile) => tile === ""))) {
+    // Check for a draw
+    if (!newBoard.flat().includes("")) {
       setWinner("Nobody", newBoard);
       return true;
     }
+
     return false;
   };
 
@@ -119,7 +129,9 @@ function TicTacToeGrid() {
               >
                 {title ? (
                   title.includes("w") ? (
-                    <div className={"text-success"}>{title.toUpperCase().charAt(1)}</div>
+                    <div className={"text-success"}>
+                      {title.toUpperCase().charAt(1)}
+                    </div>
                   ) : (
                     title.toUpperCase()
                   )
