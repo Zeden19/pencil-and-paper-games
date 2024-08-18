@@ -1,0 +1,10 @@
+.figureContainer {
+  fill: transparent;
+  stroke: #fff;
+  stroke-width: 4px;
+  stroke-linecap: round;
+}
+
+.figurePart {
+  display: none;
+}

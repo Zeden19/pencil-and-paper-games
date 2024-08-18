@@ -40,6 +40,7 @@ function GamesGrid() {
         {games.map((game) => (
           <div className={"col"}>
             <GameCard
+              key={game.label}
               img={game.img}
               label={game.label}
               description={game.description}
