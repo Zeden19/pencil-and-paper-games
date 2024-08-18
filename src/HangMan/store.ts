@@ -10,7 +10,7 @@ interface HangManStore {
 
   setIncorrectGuesses: (incorrectGuesses: number) => void;
   setGuesses: (guess: string) => void;
-  setWordPuzzle: (index: number) => void;
+  setWordPuzzle: (wordPuzzle: string[]) => void;
   setWin: (win: boolean) => void;
   startGame: (word: string) => void;
 }
@@ -26,12 +26,7 @@ const useHangManStore = create<HangManStore>((setState) => ({
   setGuesses: (guess) => setState((state) => ({ guesses: [...state.guesses, guess] })),
   setIncorrectGuesses: (incorrectGuesses) =>
     setState(() => ({ incorrectGuesses: incorrectGuesses })),
-  setWordPuzzle: (charIndex) =>
-    setState((state) => ({
-      wordPuzzle: state.wordPuzzle.map((char, index) =>
-        charIndex === index ? state.word.charAt(index) : char,
-      ),
-    })),
+  setWordPuzzle: (wordPuzzle) => setState(() => ({ wordPuzzle: wordPuzzle })),
   startGame: (word) =>
     setState(() => ({
       win: false,
@@ -39,7 +34,7 @@ const useHangManStore = create<HangManStore>((setState) => ({
       guesses: [],
       word: word,
       wordPuzzle: word.split("").map(() => "_"),
-      incorrectGuesses: 0
+      incorrectGuesses: 0,
     })),
   setWin: (win: boolean) => setState(() => ({ win: win, playing: false })),
 }));
