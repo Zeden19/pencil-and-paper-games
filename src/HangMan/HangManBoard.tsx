@@ -6,8 +6,6 @@ import VirtualKeyboardGrid from "./VirtualKeyboardGrid.tsx";
 function HangManBoard() {
   const {
     word,
-    guesses,
-    setGuesses,
     incorrectGuesses,
     setIncorrectGuesses,
     wordPuzzle,
@@ -21,7 +19,7 @@ function HangManBoard() {
     if (!wordPuzzle.includes("_")) setWin(true);
     else if (incorrectGuesses >= 6) setWin(false);
   }, [wordPuzzle, setWin, incorrectGuesses]);
-  
+
   function guessFullWord(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
@@ -38,7 +36,6 @@ function HangManBoard() {
     setIncorrectGuesses(incorrectGuesses + 1);
   }
 
-  //todo : add virtual keyboard
   return (
     <div>
       {incorrectGuesses >= 6 && (
@@ -48,12 +45,8 @@ function HangManBoard() {
       )}
       {win && wordPuzzle.length !== 0 && <div className={"text-success"}>You Win!</div>}
 
-      <div className={"text-center"}>
-        <svg
-          width={"15rem"}
-          height={"15rem"}
-          className={styles.figureContainer + " d-inline-block ms-5 no-wrap"}
-        >
+      <div className={"d-flex text-center align-items-center justify-content-center"}>
+        <svg width={"11rem"} height={"15rem"} className={styles.figureContainer}>
           {/*Scaffolding*/}
           <line x1="60" y1="20" x2="140" y2="20" />
           <line x1="140" y1="20" x2="140" y2="50" />
@@ -75,21 +68,19 @@ function HangManBoard() {
           {incorrectGuesses >= 6 && <line x1="140" y1="150" x2="160" y2="180" />}
         </svg>
 
-        <div className={"d-inline-block"}>
-          <div className={"d-flex flex-column align-items-start gap-3"}>
-            <div>
-              {wordPuzzle.map((char, index) => (
-                <div className={"text-decoration-underline d-inline-block me-2"} key={index}>
-                  {char}
-                </div>
-              ))}
-            </div>
+        <div className={"d-flex flex-column align-items-start gap-3"}>
+          <div>
+            {wordPuzzle.map((char, index) => (
+              <div className={"text-decoration-underline d-inline-block me-2"} key={index}>
+                {char}
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
       {/*Bottom buttons*/}
-      <div style={{ maxWidth: "500px" }} className={"container-fluid text-center mb-3"}>
+      <div style={{ maxWidth: "600px" }} className={"container-fluid text-center mb-3"}>
         <div className={"row"}>
           <label htmlFor="guessFullWord" className={"form-label col-auto"}>
             Guess Full Word:
@@ -104,11 +95,8 @@ function HangManBoard() {
           </form>
         </div>
 
-        <div className={"row"}>
-          <label className={"form-label col-auto"}>
-            Guess Letter:
-          </label>
-          <VirtualKeyboardGrid/>
+        <div className={"row mt-3"}>
+          <VirtualKeyboardGrid />
         </div>
       </div>
     </div>

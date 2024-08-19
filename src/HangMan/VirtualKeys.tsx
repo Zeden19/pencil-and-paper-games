@@ -14,6 +14,7 @@ function VirtualKeys({ letterKey }: Props) {
     setIncorrectGuesses,
     wordPuzzle,
     setWordPuzzle,
+    playing,
   } = useHangManStore();
   
   const key = letterKey.toLowerCase();
@@ -56,9 +57,9 @@ function VirtualKeys({ letterKey }: Props) {
 
   return (
     <button
-      disabled={isKeyGuessed}
+      disabled={isKeyGuessed || !playing}
       className={
-        "btn bg-body-secondary m-1 col-1 p-0 border-2 rounded-1 d-inline-block " + defineBorder()
+        "btn bg-body-secondary m-1 col-1 px-0 py-1 border-2 rounded-1 d-inline-block " + defineBorder()
       }
       onClick={guessLetter}
     >
