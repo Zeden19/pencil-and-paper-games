@@ -1,6 +1,7 @@
 import useHangManStore from "./store.ts";
 import styles from "./styles.module.css";
 import React, { useEffect } from "react";
+import VirtualKeyboardGrid from "./VirtualKeyboardGrid.tsx";
 
 function HangManBoard() {
   const {
@@ -20,37 +21,7 @@ function HangManBoard() {
     if (!wordPuzzle.includes("_")) setWin(true);
     else if (incorrectGuesses >= 6) setWin(false);
   }, [wordPuzzle, setWin, incorrectGuesses]);
-
-  function guessLetter(event: React.ChangeEvent<HTMLInputElement>) {
-    event.preventDefault();
-    const guess = event.target.value.toLowerCase();
-
-    if (guess === "") return;
-    if (guess.length > 1) return;
-    if (guesses.map((guess) => guess.letter).includes(guess)) return;
-
-    // check position of guessed letter
-    let findLetterIndex = word.indexOf(guess);
-
-    // no letter found; increment incorrectGuesses by 1
-    if (findLetterIndex === -1) {
-      setIncorrectGuesses(incorrectGuesses + 1);
-      setGuesses({ letter: guess, correct: false });
-      return;
-    }
-    let newWordPuzzle = wordPuzzle;
-
-    // find each time the guess occurred
-    while (findLetterIndex !== -1) {
-      newWordPuzzle = newWordPuzzle.map((char, index) =>
-        findLetterIndex === index ? word.charAt(index) : char,
-      );
-      setWordPuzzle(newWordPuzzle);
-      findLetterIndex = word.indexOf(guess, findLetterIndex + 1);
-    }
-    setGuesses({ letter: guess, correct: true });
-  }
-
+  
   function guessFullWord(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
@@ -113,24 +84,12 @@ function HangManBoard() {
                 </div>
               ))}
             </div>
-            <div className={"h4"}>
-              Guessed Letters:
-              {guesses.map((guess) => (
-                <div
-                  className={
-                    guess.correct ? "text-success d-inline-block" : "text-danger d-inline-block"
-                  }
-                >
-                  {guess.letter}
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
 
       {/*Bottom buttons*/}
-      <div style={{ maxWidth: "400px" }} className={"container-fluid text-center mb-3"}>
+      <div style={{ maxWidth: "500px" }} className={"container-fluid text-center mb-3"}>
         <div className={"row"}>
           <label htmlFor="guessFullWord" className={"form-label col-auto"}>
             Guess Full Word:
@@ -146,17 +105,10 @@ function HangManBoard() {
         </div>
 
         <div className={"row"}>
-          <label htmlFor="guessInput" className={"form-label col-auto"}>
+          <label className={"form-label col-auto"}>
             Guess Letter:
           </label>
-          <input
-            onChange={(event) => guessLetter(event)}
-            disabled={!playing}
-            type={"text"}
-            className={"form-control m-auto col-1"}
-            id={"guessInput"}
-            maxLength={1}
-          />
+          <VirtualKeyboardGrid/>
         </div>
       </div>
     </div>
