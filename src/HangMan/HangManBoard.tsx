@@ -27,8 +27,7 @@ function HangManBoard() {
 
     if (guess === "") return;
     if (guess.length > 1) return;
-    if (guesses.includes(guess)) return;
-    setGuesses(guess);
+    if (guesses.map((guess) => guess.letter).includes(guess)) return;
 
     // check position of guessed letter
     let findLetterIndex = word.indexOf(guess);
@@ -36,6 +35,7 @@ function HangManBoard() {
     // no letter found; increment incorrectGuesses by 1
     if (findLetterIndex === -1) {
       setIncorrectGuesses(incorrectGuesses + 1);
+      setGuesses({ letter: guess, correct: false });
       return;
     }
     let newWordPuzzle = wordPuzzle;
@@ -48,6 +48,7 @@ function HangManBoard() {
       setWordPuzzle(newWordPuzzle);
       findLetterIndex = word.indexOf(guess, findLetterIndex + 1);
     }
+    setGuesses({ letter: guess, correct: true });
   }
 
   function guessFullWord(event: React.FormEvent<HTMLFormElement>) {
@@ -75,30 +76,34 @@ function HangManBoard() {
         </div>
       )}
       {win && wordPuzzle.length !== 0 && <div className={"text-success"}>You Win!</div>}
-      
+
       <div className={"text-center"}>
-        <svg width={"15rem"} height={"15rem"} className={styles.figureContainer + " d-inline-block ms-5 no-wrap"}>
+        <svg
+          width={"15rem"}
+          height={"15rem"}
+          className={styles.figureContainer + " d-inline-block ms-5 no-wrap"}
+        >
           {/*Scaffolding*/}
           <line x1="60" y1="20" x2="140" y2="20" />
           <line x1="140" y1="20" x2="140" y2="50" />
           <line x1="60" y1="20" x2="60" y2="230" />
           <line x1="20" y1="230" x2="100" y2="230" />
-          
+
           {/*Head*/}
           {incorrectGuesses >= 1 && <circle cx="140" cy="70" r="20" />}
-          
+
           {/*Body*/}
           {incorrectGuesses >= 2 && <line x1="140" y1="90" x2="140" y2="150" />}
-          
+
           {/*Arms*/}
           {incorrectGuesses >= 3 && <line x1="140" y1="120" x2="120" y2="100" />}
           {incorrectGuesses >= 4 && <line x1="140" y1="120" x2="160" y2="100" />}
-          
+
           {/*Legs*/}
           {incorrectGuesses >= 5 && <line x1="140" y1="150" x2="120" y2="180" />}
           {incorrectGuesses >= 6 && <line x1="140" y1="150" x2="160" y2="180" />}
         </svg>
-        
+
         <div className={"d-inline-block"}>
           <div className={"d-flex flex-column align-items-start gap-3"}>
             <div>
@@ -108,8 +113,17 @@ function HangManBoard() {
                 </div>
               ))}
             </div>
-            <div className={"h4 "}>
-              Guessed Letters: {guesses.map((guess) => guess + " ")}
+            <div className={"h4"}>
+              Guessed Letters:
+              {guesses.map((guess) => (
+                <div
+                  className={
+                    guess.correct ? "text-success d-inline-block" : "text-danger d-inline-block"
+                  }
+                >
+                  {guess.letter}
+                </div>
+              ))}
             </div>
           </div>
         </div>

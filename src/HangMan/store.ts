@@ -1,15 +1,20 @@
 import { create } from "zustand";
 
+interface Guess {
+  letter: string;
+  correct: boolean
+}
+
 interface HangManStore {
   playing: boolean;
   incorrectGuesses: number;
-  guesses: string[];
+  guesses: Guess[];
   win: boolean;
   word: string;
   wordPuzzle: string[];
 
   setIncorrectGuesses: (incorrectGuesses: number) => void;
-  setGuesses: (guess: string) => void;
+  setGuesses: (guess: Guess) => void;
   setWordPuzzle: (wordPuzzle: string[]) => void;
   setWin: (win: boolean) => void;
   startGame: (word: string) => void;
