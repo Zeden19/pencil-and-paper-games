@@ -38,10 +38,11 @@ function HangManBoard() {
       setIncorrectGuesses(incorrectGuesses + 1);
       return;
     }
+    let newWordPuzzle = wordPuzzle;
 
     // find each time the guess occurred
     while (findLetterIndex !== -1) {
-      const newWordPuzzle = wordPuzzle.map((char, index) =>
+      newWordPuzzle = newWordPuzzle.map((char, index) =>
         findLetterIndex === index ? word.charAt(index) : char,
       );
       setWordPuzzle(newWordPuzzle);
@@ -56,7 +57,7 @@ function HangManBoard() {
       .trimEnd()
       .trimStart()
       .toLowerCase();
-    
+
     if (fullWordGuess === word) {
       setWordPuzzle(word.split(""));
       setWin(true);
@@ -65,7 +66,7 @@ function HangManBoard() {
     setIncorrectGuesses(incorrectGuesses + 1);
   }
 
-  //todo: refactor code, since everything uses the same layout of heading, 2 buttons
+  //todo: make svg scalable
   //todo : add virtual keyboard
   return (
     <div>
@@ -74,41 +75,44 @@ function HangManBoard() {
           You loose. Word was: <b>{word}</b>
         </div>
       )}
-      {win && <div className={"text-success"}>You Win!</div>}
-      <div className={"container-sm d-flex gap-2 align-items-center justify-content-center"}>
-        <svg height="250" width="200" className={styles.figureContainer}>
-          <line x1="60" y1="20" x2="140" y2="20" />
-          <line x1="140" y1="20" x2="140" y2="50" />
-          <line x1="60" y1="20" x2="60" y2="230" />
-          <line x1="20" y1="230" x2="100" y2="230" />
+      {win && wordPuzzle.length !== 0 && <div className={"text-success"}>You Win!</div>}
+      <svg height="250" width="200" className={styles.figureContainer + " d-inline-block ms-5"}>
+        <line x1="60" y1="20" x2="140" y2="20" />
+        <line x1="140" y1="20" x2="140" y2="50" />
+        <line x1="60" y1="20" x2="60" y2="230" />
+        <line x1="20" y1="230" x2="100" y2="230" />
 
-          {/*Head*/}
-          {incorrectGuesses >= 1 && <circle cx="140" cy="70" r="20" />}
+        {/*Head*/}
+        {incorrectGuesses >= 1 && <circle cx="140" cy="70" r="20" />}
 
-          {/*Body*/}
-          {incorrectGuesses >= 2 && <line x1="140" y1="90" x2="140" y2="150" />}
+        {/*Body*/}
+        {incorrectGuesses >= 2 && <line x1="140" y1="90" x2="140" y2="150" />}
 
-          {/*Arms*/}
-          {incorrectGuesses >= 3 && <line x1="140" y1="120" x2="120" y2="100" />}
-          {incorrectGuesses >= 4 && <line x1="140" y1="120" x2="160" y2="100" />}
+        {/*Arms*/}
+        {incorrectGuesses >= 3 && <line x1="140" y1="120" x2="120" y2="100" />}
+        {incorrectGuesses >= 4 && <line x1="140" y1="120" x2="160" y2="100" />}
 
-          {/*Legs*/}
-          {incorrectGuesses >= 5 && <line x1="140" y1="150" x2="120" y2="180" />}
-          {incorrectGuesses >= 6 && <line x1="140" y1="150" x2="160" y2="180" />}
-        </svg>
+        {/*Legs*/}
+        {incorrectGuesses >= 5 && <line x1="140" y1="150" x2="120" y2="180" />}
+        {incorrectGuesses >= 6 && <line x1="140" y1="150" x2="160" y2="180" />}
+      </svg>
 
-        <div>
-          <div className={"d-flex gap-2"}>
+      <div className={"d-inline-block w-25"}>
+        <div className={"d-flex flex-column align-items-start gap-3"}>
+          <div>
             {wordPuzzle.map((char, index) => (
-              <div className={"text-decoration-underline"} key={index}>
+              <div className={"text-decoration-underline d-inline-block me-2"} key={index}>
                 {char}
               </div>
             ))}
           </div>
-          <div className={"h4"}>Guessed Letters: {guesses.map((guess) => guess + " ")}</div>
+          <div className={"h4 "}>
+            Guessed Letters: {guesses.map((guess) => guess + " ")}
+          </div>
         </div>
       </div>
 
+      {/*Bottom buttons*/}
       <div style={{ maxWidth: "400px" }} className={"container-fluid text-center mb-3"}>
         <div className={"row"}>
           <label htmlFor="guessFullWord" className={"form-label col-auto"}>
