@@ -34,13 +34,10 @@ const games = [
 function GamesGrid() {
   return (
     <div className={"container text-center"}>
-      <div
-        className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 gx-3"}
-      >
+      <div className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 gx-3"}>
         {games.map((game) => (
-          <div className={"col"}>
+          <div key={game.label} className={"col"}>
             <GameCard
-              key={game.label}
               img={game.img}
               label={game.label}
               description={game.description}
