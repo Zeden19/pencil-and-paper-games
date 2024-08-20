@@ -1,5 +1,6 @@
 import TicTacToeGrid from "../TicTacToe/TicTacToeGrid.tsx";
 import useTicTacToeStore from "../TicTacToe/store.ts";
+import GamePages from "../GamePages.tsx";
 
 function TicTacToePage() {
   const playing = useTicTacToeStore((state) => state.playing);
@@ -11,8 +12,20 @@ function TicTacToePage() {
   const turn = useTicTacToeStore((state) => state.turn);
 
   return (
-    <div className={"container-fluid text-center bg-body-tertiary pb-3"}>
-      <h2 className={"h2 py-4"}>TicTacToe</h2>
+    <GamePages
+      title={"TicTacToe"}
+      startFunction={() => (playing ? reset() : setPlaying())}
+      aboveHelpButtons={
+        <button
+          disabled={playing}
+          onClick={() => setVsCpu()}
+          className={"btn btn-primary d-block my-2 px-4 m-auto"}
+        >
+          {vsCpu ? "Vs CPU" : "Vs Player"}
+        </button>
+      }
+      playing={playing}
+    >
       <p>
         {vsCpu ? "Player" : "Player 1"}: X | {vsCpu ? " Cpu" : " Player 2"}: O
       </p>
@@ -26,24 +39,7 @@ function TicTacToePage() {
       </p>
 
       <TicTacToeGrid />
-
-      <button
-        onClick={() => (playing ? reset() : setPlaying())}
-        className={"btn btn-primary d-block my-2 px-4 m-auto"}
-      >
-        {playing ? "Reset" : "Play"}
-      </button>
-
-      <button
-        disabled={playing}
-        onClick={() => setVsCpu()}
-        className={"btn btn-primary d-block my-2 px-4 m-auto"}
-      >
-        {vsCpu ? "Vs CPU" : "Vs Player"}
-      </button>
-
-      <button className={"btn btn-primary d-block px-4 m-auto"}>Help</button>
-    </div>
+    </GamePages>
   );
 }
 
