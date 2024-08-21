@@ -12,7 +12,7 @@ function Connect4Grid() {
     if (!playing) return;
     // find available location
     let row = undefined;
-    
+
     // simulating the "fall" of a chip
     for (let i = 0; i < 6; i++) {
       if (grid[i][col] === "") row = i;
@@ -23,18 +23,34 @@ function Connect4Grid() {
     grid[row][col] = turn;
     setGrid(grid);
     setTurn();
-    
+
     // checking horizontal
+    // this works by checking how many of the same chips are to the left and right
     let right = 0;
     for (let i = col + 1; i < col + 4; i++) {
-      if (grid[row][i] === turn) right += 1
+      if (grid[row][i] === turn) right += 1;
+      else break;
     }
     let left = 0;
     for (let i = col - 1; i > col - 4; i--) {
-      if (grid[row][i] === turn) left += 1
+      if (grid[row][i] === turn) left += 1;
+      else break;
     }
-    if (left + right + 1 >= 4) { // + 1 since we didn't account for the current chip when checking left and right
-      setWinner(turn)
+    if (left + right + 1 >= 4) {
+      // + 1 since we didn't account for the current chip when checking left and right
+      setWinner(turn);
+      return;
+    }
+
+    // checking vertical
+    if (
+      row <= 2 &&
+      grid[row][col] === grid[row + 1][col] &&
+      grid[row + 1][col] === grid[row + 2][col] &&
+      grid[row + 2][col] === grid[row + 3][col]
+    ) {
+      setWinner(turn);
+      return;
     }
   }
 

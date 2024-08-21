@@ -13,7 +13,7 @@ function Connect4Page() {
         startGame();
       }}
     >
-      {playing && turn + " Turn"} <br/>
+      {playing && turn + " Turn"}
       {winner && winner + " Wins!"}
       <Connect4Grid />
     </GamePages>
