@@ -42,12 +42,45 @@ function Connect4Grid() {
       return;
     }
 
-    // checking vertical
+    // checking vertical; since there can't be an "up" victory, we should only check down
     if (
       row <= 2 &&
       grid[row][col] === grid[row + 1][col] &&
       grid[row + 1][col] === grid[row + 2][col] &&
       grid[row + 2][col] === grid[row + 3][col]
+    ) {
+      setWinner(turn);
+      return;
+    }
+
+    // checking diagonal; this time we move ourselves to the rightmost/leftmost diagonal chip and check from there
+    // checking bottom left
+    let bottomLeftCol = col;
+    let bottomLeftRow = row;
+    while (grid[bottomLeftRow + 1] && grid[bottomLeftRow + 1][bottomLeftCol - 1] === turn) {
+      bottomLeftRow++;
+      bottomLeftCol--;
+    }
+    if (
+      grid[bottomLeftRow][bottomLeftCol] == grid[bottomLeftRow - 1][bottomLeftCol + 1] &&
+      grid[bottomLeftRow - 1][bottomLeftCol + 1] == grid[bottomLeftRow - 2][bottomLeftCol + 2] &&
+      grid[bottomLeftRow - 2][bottomLeftCol + 2] == grid[bottomLeftRow - 3][bottomLeftCol + 3]
+    ) {
+      setWinner(turn);
+      return;
+    }
+
+    // checking bottom right
+    let bottomRightCol = col;
+    let bottomRightRow = row;
+    while (grid[bottomRightRow + 1] && grid[bottomRightRow + 1][bottomRightCol + 1] === turn) {
+      bottomRightRow++;
+      bottomRightCol++;
+    }
+    if (
+      grid[bottomRightRow][bottomRightCol] == grid[bottomRightRow - 1][bottomRightCol - 1] &&
+      grid[bottomRightRow - 1][bottomRightCol - 1] == grid[bottomRightRow - 2][bottomRightCol - 2] &&
+      grid[bottomRightRow - 2][bottomRightCol - 2] == grid[bottomRightRow - 3][bottomRightCol - 3]
     ) {
       setWinner(turn);
       return;
