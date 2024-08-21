@@ -3,6 +3,7 @@ import styles from "./styles.module.css";
 import { useState } from "react";
 import yellowChip from "../assets/yellowChip.png";
 import redChip from "../assets/redChip.png";
+import emptyChip from "../assets/emptyChip.png"
 
 function Connect4Grid() {
   const [colHovered, setColHovered] = useState(NaN);
@@ -62,6 +63,7 @@ function Connect4Grid() {
       bottomLeftCol--;
     }
     if (
+      bottomLeftRow >= 3 &&
       grid[bottomLeftRow][bottomLeftCol] == grid[bottomLeftRow - 1][bottomLeftCol + 1] &&
       grid[bottomLeftRow - 1][bottomLeftCol + 1] == grid[bottomLeftRow - 2][bottomLeftCol + 2] &&
       grid[bottomLeftRow - 2][bottomLeftCol + 2] == grid[bottomLeftRow - 3][bottomLeftCol + 3]
@@ -78,12 +80,18 @@ function Connect4Grid() {
       bottomRightCol++;
     }
     if (
+      bottomRightRow >= 3 &&
       grid[bottomRightRow][bottomRightCol] == grid[bottomRightRow - 1][bottomRightCol - 1] &&
-      grid[bottomRightRow - 1][bottomRightCol - 1] == grid[bottomRightRow - 2][bottomRightCol - 2] &&
+      grid[bottomRightRow - 1][bottomRightCol - 1] ==
+        grid[bottomRightRow - 2][bottomRightCol - 2] &&
       grid[bottomRightRow - 2][bottomRightCol - 2] == grid[bottomRightRow - 3][bottomRightCol - 3]
     ) {
       setWinner(turn);
       return;
+    }
+
+    if (!grid.flat().includes("")) {
+      setWinner("Nobody");
     }
   }
 
@@ -100,16 +108,16 @@ function Connect4Grid() {
               className={`col py-2 px-md-3 px-1 ${colHovered === rightIndex && styles.hoveredCol}`}
             >
               <div
-                className={`rounded-circle bg-white ${!tile && "py-md-4 py-2"} border border-2 border-black`}
+                className={`rounded-circle bg-white  border border-2 border-black`}
               >
                 {tile ? (
                   <img
-                    alt={"token"}
+                    alt={"Chip"}
                     className={"w-100 h-100"}
                     src={tile === "yellow" ? yellowChip : redChip}
                   />
                 ) : (
-                  <>&nbsp;</>
+                  <img alt={"NoChip"} src={emptyChip} className={"w-100 h-100"}/>
                 )}
               </div>
             </div>
