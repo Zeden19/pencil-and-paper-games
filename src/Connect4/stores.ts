@@ -11,6 +11,7 @@ interface Connect4Store {
   setVsCpu: () => void;
   setTurn: () => void;
   setGrid: (newGrid: string[][]) => void;
+  setWinner: (winner: string) => void;
 }
 
 const emptyGrid = [
@@ -44,6 +45,7 @@ const useConnect4Store = create<Connect4Store>((setState) => ({
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
   setTurn: () => setState((state) => ({ turn: state.turn === "red" ? "yellow" : "red" })),
   setGrid: (newGrid: string[][]) => setState(() => ({ grid: newGrid })),
+  setWinner: (winner) => setState((state) => ({winner: winner, playing: false}))
 }));
 
 export default useConnect4Store;

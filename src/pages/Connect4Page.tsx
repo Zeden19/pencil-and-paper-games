@@ -3,7 +3,7 @@ import Connect4Grid from "../Connect4/Connect4Grid.tsx";
 import useConnect4Store from "../Connect4/stores.ts";
 
 function Connect4Page() {
-  const {playing, startGame} = useConnect4Store();
+  const {playing, startGame, turn, winner} = useConnect4Store();
   
   return (
     <GamePages
@@ -13,7 +13,8 @@ function Connect4Page() {
         startGame();
       }}
     >
-      Red or Yellow Turn
+      {playing && turn + " Turn"} <br/>
+      {winner && winner + " Wins!"}
       <Connect4Grid />
     </GamePages>
   );
