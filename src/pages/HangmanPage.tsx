@@ -4,7 +4,6 @@ import { words } from "../HangMan/words.ts";
 import GamePages from "../GamePages.tsx";
 
 function HangmanPage() {
-  // noinspection JSUnusedLocalSymbols
   const { playing, startGame } = useHangManStore();
 
   function getWord() {

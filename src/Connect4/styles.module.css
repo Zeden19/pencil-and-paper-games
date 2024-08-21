@@ -2,3 +2,7 @@
     flex: 0 0 auto;
     width: 14.28571429%
 }
+
+.hoveredCol {
+    background-color: mediumblue;
+}

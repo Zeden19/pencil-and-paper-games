@@ -7,11 +7,10 @@ interface Connect4Store {
   playing: boolean;
   winner: string;
 
-  setPlaying: () => void;
+  startGame: () => void;
   setVsCpu: () => void;
   setTurn: () => void;
-  reset: () => void;
-  setWinner: (winner: string, winningBoard?: string[][]) => void;
+  setGrid: (newGrid: string[][]) => void;
 }
 
 const emptyGrid = [
@@ -28,23 +27,23 @@ const useConnect4Store = create<Connect4Store>((setState) => ({
   turn: "red",
   playing: false,
   winner: "",
-  
-  setPlaying: () =>
+
+  startGame: () =>
     setState((state) => ({
       playing: !state.playing,
-      board: emptyGrid,
+      grid: [
+        ["", "", "", "", "", "", ""], // zustland was for some reason changing the value of emptygrid idk why
+        ["", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", ""],
+      ],
       winner: "",
     })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
-  setTurn: () => setState((state) => ({ turn: state.turn === "red" ? "red" : "yellow" })),
-  reset: () =>
-    setState((state) => ({
-      playing: !state.playing,
-      board: emptyGrid,
-      winner: "",
-    })),
-  setWinner: (winner, winningBoard) =>
-    setState((state) => ({ winner: winner, playing: !state.playing, board: winningBoard })),
+  setTurn: () => setState((state) => ({ turn: state.turn === "red" ? "yellow" : "red" })),
+  setGrid: (newGrid: string[][]) => setState(() => ({ grid: newGrid })),
 }));
 
 export default useConnect4Store;
