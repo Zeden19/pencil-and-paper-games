@@ -6,3 +6,7 @@
 .hoveredCol {
     background-color: mediumblue;
 }
+
+.winningChip {
+    filter: brightness(50%);
+}
