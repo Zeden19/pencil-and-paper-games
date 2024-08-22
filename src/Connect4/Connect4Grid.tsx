@@ -4,9 +4,7 @@ import { useState } from "react";
 import yellowChip from "../assets/yellowChip.png";
 import redChip from "../assets/redChip.png";
 
-//todo: refractor: consider the for loop extraGrid for updating winningChips
 //todo: add chip at top selection
-
 function Connect4Grid() {
   const [colHovered, setColHovered] = useState(NaN);
   const { grid, setGrid, turn, setTurn, playing, setWinner } = useConnect4Store();
@@ -113,7 +111,7 @@ function Connect4Grid() {
               <div
                 className={`rounded-circle bg-white  border border-2 border-black ${tile.winning && styles.winningChip}`}
               >
-                <img alt={"Chip"} className={"w-100 h-100"} src={tile.src} />
+                <img draggable={false} alt={"Chip"} className={"w-100 h-100"} src={tile.src} />
               </div>
             </div>
           )),
