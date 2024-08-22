@@ -11,15 +11,42 @@ function Connect4Grid() {
   const [colHovered, setColHovered] = useState(NaN);
   const { grid, setGrid, turn, setTurn, playing, setWinner } = useConnect4Store();
 
-  function setWiningChips(
-    indices: [
-      { row: number; col: number },
-      { row: number; col: number },
-      { row: number; col: number },
-      { row: number; col: number },
-    ],
+  function getFirstChipInRow(
+    turn: string,
+    row: number,
+    col: number,
+    rowIncrement: number,
+    colIncrement: number,
   ) {
-    indices.forEach((index) => (grid[index.row][index.col].winning = true));
+    while (
+      grid[row + rowIncrement] &&
+      grid[row + rowIncrement][col + colIncrement] &&
+      grid[row + rowIncrement][col + colIncrement].turn === turn
+    ) {
+      row += rowIncrement;
+      col += colIncrement;
+    }
+    return [row, col];
+  }
+
+  function checkAndSetWin(
+    turn: string,
+    startingRow: number,
+    startingCol: number,
+    rowIncrement: number,
+    colIncrement: number,
+  ) {
+    const newGrid = JSON.parse(JSON.stringify(grid)); // creating deep copy
+    for (let i = 0; i < 4; i++) {
+      if (grid[startingRow][startingCol].turn !== turn) {
+        return;
+      }
+      newGrid[startingRow][startingCol].winning = true;
+      startingRow += rowIncrement;
+      startingCol += colIncrement;
+    }
+    setGrid(newGrid);
+    setWinner(turn);
   }
 
   function handleClick(col: number, turn: string) {
@@ -42,103 +69,22 @@ function Connect4Grid() {
 
     // checking horizontal
     // go to the leftmost chip and move right
-    let leftCol = col;
-    while (leftCol !== 0 && grid[row][leftCol - 1].turn === turn) {
-      leftCol--;
-    }
-    if (
-      leftCol <= 4 &&
-      grid[row][leftCol].turn === grid[row][leftCol + 1].turn &&
-      grid[row][leftCol + 1].turn === grid[row][leftCol + 2].turn &&
-      grid[row][leftCol + 2].turn === grid[row][leftCol + 3].turn
-    ) {
-      setWinner(turn);
-      setWiningChips([
-        { row: row, col: leftCol },
-        { row: row, col: leftCol + 1 },
-        { row: row, col: leftCol + 2 },
-        { row: row, col: leftCol + 3 },
-      ]);
-    }
+    const leftCol = getFirstChipInRow(turn, row, col, 0, -1)[1];
+    if (leftCol <= 3) checkAndSetWin(turn, row, leftCol, 0, 1);
 
     // checking vertical; since there can't be an "up" victory, we only check down
-    if (
-      row <= 2 &&
-      grid[row][col].turn === grid[row + 1][col].turn &&
-      grid[row + 1][col].turn === grid[row + 2][col].turn &&
-      grid[row + 2][col].turn === grid[row + 3][col].turn
-    ) {
-      setWinner(turn);
-      setWiningChips([
-        { row: row, col: col },
-        { row: row + 1, col: col },
-        { row: row + 2, col: col },
-        { row: row + 3, col: col },
-      ]);
-      return;
-    }
+    if (row <= 2) checkAndSetWin(turn, row, col, 1, 0);
 
     // checking diagonal; this time we move ourselves to the rightmost/leftmost diagonal chip and check from there
     // getting bottom left
-    let bottomLeftCol = col;
-    let bottomLeftRow = row;
-    while (
-      grid[bottomLeftRow + 1] &&
-      grid[bottomLeftRow + 1][bottomLeftCol - 1] &&
-      grid[bottomLeftRow + 1][bottomLeftCol - 1].turn === turn
-    ) {
-      bottomLeftRow++;
-      bottomLeftCol--;
-    }
-    if (
-      bottomLeftRow >= 3 &&
-      bottomLeftCol <= 3 &&
-      grid[bottomLeftRow][bottomLeftCol].turn == grid[bottomLeftRow - 1][bottomLeftCol + 1].turn &&
-      grid[bottomLeftRow - 1][bottomLeftCol + 1].turn ==
-        grid[bottomLeftRow - 2][bottomLeftCol + 2].turn &&
-      grid[bottomLeftRow - 2][bottomLeftCol + 2].turn ==
-        grid[bottomLeftRow - 3][bottomLeftCol + 3].turn
-    ) {
-      setWinner(turn);
-      setWiningChips([
-        { row: bottomLeftRow, col: bottomLeftCol },
-        { row: bottomLeftRow - 1, col: bottomLeftCol + 1 },
-        { row: bottomLeftRow - 2, col: bottomLeftCol + 2 },
-        { row: bottomLeftRow - 3, col: bottomLeftCol + 3 },
-      ]);
-      return;
-    }
+    const [bottomLeftRow, bottomLeftCol] = getFirstChipInRow(turn, row, col, 1, -1);
+    if (bottomLeftRow >= 3 && bottomLeftCol <= 3)
+      checkAndSetWin(turn, bottomLeftRow, bottomLeftCol, -1, 1);
 
     // getting bottom right
-    let bottomRightCol = col;
-    let bottomRightRow = row;
-    while (
-      grid[bottomRightRow + 1] &&
-      grid[bottomRightRow + 1][bottomRightCol + 1] &&
-      grid[bottomRightRow + 1][bottomRightCol + 1].turn === turn
-    ) {
-      bottomRightRow++;
-      bottomRightCol++;
-    }
-    if (
-      bottomRightRow >= 3 &&
-      bottomRightCol >= 3 &&
-      grid[bottomRightRow][bottomRightCol].turn ==
-        grid[bottomRightRow - 1][bottomRightCol - 1].turn &&
-      grid[bottomRightRow - 1][bottomRightCol - 1].turn ==
-        grid[bottomRightRow - 2][bottomRightCol - 2].turn &&
-      grid[bottomRightRow - 2][bottomRightCol - 2].turn ==
-        grid[bottomRightRow - 3][bottomRightCol - 3].turn
-    ) {
-      setWinner(turn);
-      setWiningChips([
-        { row: bottomRightRow, col: bottomRightCol },
-        { row: bottomRightRow - 1, col: bottomRightCol - 1 },
-        { row: bottomRightRow - 2, col: bottomRightCol - 2 },
-        { row: bottomRightRow - 3, col: bottomRightCol - 3 },
-      ]);
-      return;
-    }
+    const [bottomRightRow, bottomRightCol] = getFirstChipInRow(turn, row, col, 1, 1);
+    if (bottomRightRow >= 3 && bottomRightCol >= 3)
+      checkAndSetWin(turn, bottomRightRow, bottomRightCol, -1, -1);
 
     // checking tie
     if (
@@ -147,6 +93,7 @@ function Connect4Grid() {
         .flat()
         .includes("")
     ) {
+      // checking tie
       setWinner("Nobody");
     }
   }
