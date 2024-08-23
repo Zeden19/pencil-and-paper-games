@@ -25,6 +25,10 @@ function TicTacToePage() {
         </button>
       }
       playing={playing}
+      helpModalId={"tictactoe"}
+      helpModalDescription={"In this 2 player game, each player places their token (X or O) on the grid. " +
+        "If a player gets 3 tokens in a row (horizontal, diagonal or vertical) they win. \n\n" +
+        "As simple as that!"}
     >
       <p>
         {vsCpu ? "Player" : "Player 1"}: X | {vsCpu ? " Cpu" : " Player 2"}: O
