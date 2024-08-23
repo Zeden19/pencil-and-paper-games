@@ -1,13 +1,8 @@
-import { GiBattleship, GiTicTacToe } from "react-icons/gi";
-import {
-  MdAccountCircle,
-  MdDarkMode,
-  MdGridOff,
-  MdLightMode,
-} from "react-icons/md";
-import { PiPersonSimpleBold, PiSignInBold } from "react-icons/pi";
+import { GiTicTacToe } from "react-icons/gi";
+import { MdAccountCircle, MdDarkMode, MdGridOff, MdLightMode } from "react-icons/md";
+import { PiDotsNineBold, PiPersonSimpleBold, PiSignInBold } from "react-icons/pi";
 import { CgDarkMode } from "react-icons/cg";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Navigation() {
   const iconRightSize = "2rem";
@@ -64,9 +59,9 @@ function Navigation() {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="dropdown-item" to="/battleship">
-                    <GiBattleship className={"me-1"} />
-                    BattleShip
+                  <NavLink className="dropdown-item" to="/dotsandboxes">
+                    <PiDotsNineBold className={"me-1"} />
+                    Dots and Boxes
                   </NavLink>
                 </li>
               </ul>

@@ -1,4 +1,4 @@
-import battleship from "./assets/battleshipPlaceholder.jpg";
+import dotsandboxes from "./assets/dots&boxesPlaceholder.png";
 import connect4 from "./assets/connect4Picture.png";
 import hangman from "./assets/hangmanPicture.png";
 import tictactoe from "./assets/tictactoePicture.png";
@@ -24,10 +24,10 @@ const games = [
     url: "/hangman",
   },
   {
-    label: "Battleship",
-    description: "Press the Assault, Sink the Enemy Fleet!",
-    img: battleship,
-    url: "/battleship",
+    label: "Dots And Boxes",
+    description: "Place the Line, Get the Box.",
+    img: dotsandboxes,
+    url: "/dotsandboxes",
   },
 ];
 

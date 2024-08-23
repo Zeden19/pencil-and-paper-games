@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import TicTacToePage from "./TicTacToePage.tsx";
-import BattleShipPage from "./BattleShipPage.tsx";
+import DotsAndBoxesPage from "./DotsAndBoxesPage.tsx";
 import HangmanPage from "./HangmanPage.tsx";
 import Connect4Page from "./Connect4Page.tsx";
 import HomePage from "./HomePage.tsx";
@@ -22,8 +22,8 @@ const router = createBrowserRouter([
         element: <TicTacToePage />,
       },
       {
-        path: "battleship",
-        element: <BattleShipPage />,
+        path: "dotsandboxes",
+        element: <DotsAndBoxesPage />,
       },
       {
         path: "hangman",
