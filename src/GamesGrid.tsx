@@ -1,7 +1,7 @@
 import battleship from "./assets/battleshipPlaceholder.jpg";
-import connect4 from "./assets/connect4Placeholder.jpg";
-import hangman from "./assets/hangmanPlaceholder.jpg";
-import tictactoe from "./assets/tictactoePlaceholder.png";
+import connect4 from "./assets/connect4Picture.png";
+import hangman from "./assets/hangmanPicture.png";
+import tictactoe from "./assets/tictactoePicture.png";
 import GameCard from "./GameCard.tsx";
 
 const games = [
