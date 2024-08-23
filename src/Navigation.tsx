@@ -80,7 +80,7 @@ function Navigation() {
           </ul>
           <div className={"d-flex gap-4"}>
             <li className="d-flex">
-              <div className={"dropdown nav-item"}>
+              <div className={"dropdown  nav-item"}>
                 <MdAccountCircle
                   className={"nav-link dropdown-toggle"}
                   data-bs-toggle="dropdown"
@@ -88,7 +88,7 @@ function Navigation() {
                   role={"button"}
                   size={iconRightSize}
                 />
-                <ul className={"dropdown-menu"}>
+                <ul className={"dropdown-menu dropdown-menu-start dropdown-menu-md-end"}>
                   <li className={"dropdown-item"}>
                     <PiSignInBold className={"me-1"} />
                     <a>Sign up</a>
@@ -100,13 +100,12 @@ function Navigation() {
             <li className={"d-flex flex-row"}>
               <div className={"dropdown nav-item"}>
                 <MdDarkMode
-                  className={"nav-link dropdown-toggle"}
+                  role={"button nav-link"}
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                  role={"button"}
                   size={iconRightSize}
                 />
-                <ul className={"dropdown-menu"}>
+                <ul className={"dropdown-menu dropdown-menu-start dropdown-menu-md-end"}>
                   <li className={"dropdown-item"}>
                     <MdLightMode className={"me-1"} />
                     Light Mode
