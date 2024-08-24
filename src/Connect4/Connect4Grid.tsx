@@ -109,7 +109,7 @@ function Connect4Grid() {
               className={`col py-2 px-md-3 px-1 ${colHovered === rightIndex && styles.hoveredCol}`}
             >
               <div
-                className={`rounded-circle bg-white  border border-2 border-black ${tile.winning && styles.winningChip}`}
+                className={`rounded-circle bg-white border border-2 border-black ${tile.winning && styles.winningChip}`}
               >
                 <img draggable={false} alt={"Chip"} className={"w-100 h-100"} src={tile.src} />
               </div>
