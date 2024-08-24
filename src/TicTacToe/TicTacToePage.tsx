@@ -1,5 +1,5 @@
-import TicTacToeGrid from "../TicTacToe/TicTacToeGrid.tsx";
-import useTicTacToeStore from "../TicTacToe/store.ts";
+import TicTacToeGrid from "./TicTacToeGrid.tsx";
+import useTicTacToeStore from "./store.ts";
 import GamePages from "../GamePages.tsx";
 
 function TicTacToePage() {

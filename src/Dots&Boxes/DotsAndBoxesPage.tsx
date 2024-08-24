@@ -1,6 +1,6 @@
 import GamePages from "../GamePages.tsx";
-import useDotsAndBoxes from "../Dots&Boxes/stores.ts";
-import DotsAndBoxesGrid from "../Dots&Boxes/DotsAndBoxesGrid.tsx";
+import useDotsAndBoxes from "./stores.ts";
+import DotsAndBoxesGrid from "./DotsAndBoxesGrid.tsx";
 
 function DotsAndBoxesPage() {
   const { playing, startGame } = useDotsAndBoxes();

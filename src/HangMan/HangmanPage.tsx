@@ -1,6 +1,6 @@
-import HangManBoard from "../HangMan/HangManBoard.tsx";
-import useHangManStore from "../HangMan/store.ts";
-import { words } from "../HangMan/words.ts";
+import HangManBoard from "./HangManBoard.tsx";
+import useHangManStore from "./store.ts";
+import { words } from "./words.ts";
 import GamePages from "../GamePages.tsx";
 
 function HangmanPage() {
