@@ -1,15 +1,14 @@
 import { create } from "zustand";
 
-interface Box {
+interface Dot {
   left: boolean;
   right: boolean;
   down: boolean;
   top: boolean;
-  owner: string;
 }
 
 interface DotsBoxesStore {
-  grid: Box[][];
+  grid: Dot[][];
   vsCpu: boolean;
   turn: "red" | "blue";
   playing: boolean;
@@ -18,7 +17,7 @@ interface DotsBoxesStore {
   startGame: () => void;
   setVsCpu: () => void;
   setTurn: () => void;
-  setGrid: (newGrid: Box[][]) => void;
+  setGrid: (newGrid: Dot[][]) => void;
   setWinner: (winner: string) => void;
 }
 
@@ -29,12 +28,6 @@ const emptyGrid = [
     { left: false, right: false, down: false, top: false, owner: "" },
     { left: false, right: false, down: false, top: false, owner: "" },
     { left: false, right: false, down: false, top: false, owner: "" },
-  ],
-  [
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
     { left: false, right: false, down: false, top: false, owner: "" },
   ],
   [
@@ -43,8 +36,26 @@ const emptyGrid = [
     { left: false, right: false, down: false, top: false, owner: "" },
     { left: false, right: false, down: false, top: false, owner: "" },
     { left: false, right: false, down: false, top: false, owner: "" },
+    { left: false, right: false, down: false, top: false, owner: "" },
   ],
   [
+    { left: false, right: false, down: false, top: false, owner: "" },
+    { left: false, right: false, down: false, top: false, owner: "" },
+    { left: false, right: false, down: false, top: false, owner: "" },
+    { left: false, right: false, down: false, top: false, owner: "" },
+    { left: false, right: false, down: false, top: false, owner: "" },
+    { left: false, right: false, down: false, top: false, owner: "" },
+  ],
+  [
+    { left: false, right: false, down: false, top: false, owner: "" },
+    { left: false, right: false, down: false, top: false, owner: "" },
+    { left: false, right: false, down: false, top: false, owner: "" },
+    { left: false, right: false, down: false, top: false, owner: "" },
+    { left: false, right: false, down: false, top: false, owner: "" },
+    { left: false, right: false, down: false, top: false, owner: "" },
+  ],
+  [
+    { left: false, right: false, down: false, top: false, owner: "" },
     { left: false, right: false, down: false, top: false, owner: "" },
     { left: false, right: false, down: false, top: false, owner: "" },
     { left: false, right: false, down: false, top: false, owner: "" },
@@ -68,7 +79,7 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
     })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
   setTurn: () => setState((state) => ({ turn: state.turn === "red" ? "blue" : "red" })),
-  setGrid: (newGrid: Box[][]) => setState(() => ({ grid: newGrid })),
+  setGrid: (newGrid: Dot[][]) => setState(() => ({ grid: newGrid })),
   setWinner: (winner) => setState(() => ({ winner: winner, playing: false })),
 }));
 
