@@ -1,4 +1,4 @@
-import useDotsAndBoxes, { Dot } from "./stores.ts";
+import useDotsAndBoxes, { Dot, Line } from "./stores.ts";
 import styles from "./styles.module.css";
 import classNames from "classnames/bind";
 
@@ -8,6 +8,8 @@ interface Props {
   cell: Dot;
 }
 
+//todo add more customizability to the store to allow for specific values to change without changing the whole grid
+// for example: setHighlighted (row, col, boolean), setLine(). This will prevent unnecessary re-renders
 function Cell({ rowIndex, colIndex, cell }: Props) {
   const { setGrid, turn, setTurn, winner, setWinner, playing, lineDrawState, setLineDrawState } =
     useDotsAndBoxes();
@@ -27,12 +29,21 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
 
     if (lineDrawState.canDrawLine) {
       if (cell.highlighted) {
-        console.log("LineDrawState " + lineDrawState.startRow + " " + lineDrawState.startCol);
-        console.log("Current Cell " + rowIndex + " " + colIndex);
+        // at this point, we know that the cell in lineDrawState can make a line to the selected cell
+        const selectedCell = grid[lineDrawState.startRow][lineDrawState.startCol];
+
+        const direction = Object.keys(selectedCell).find(
+          (key) =>
+            (selectedCell[key as keyof Dot] as Line).cellRow === rowIndex &&
+            (selectedCell[key as keyof Dot] as Line).cellCol === colIndex,
+        );
+        console.log(
+          "draw line from " + selectedCell + " to " + selectedCell[direction! as keyof Dot],
+        );
         return;
       }
 
-      // make everything  and set lineDrawState to something else
+      // make everything un-highlighted and set lineDrawState to something else
       grid = grid.map((row) => row.map((cell) => ({ ...cell, highlighted: false })));
       setCellHighlighted();
       setGrid(grid);

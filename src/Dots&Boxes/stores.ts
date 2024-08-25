@@ -8,11 +8,12 @@ export interface Line {
 }
 
 export interface Dot {
-  left?: Line
-  right?: Line
-  down?: Line
-  up?: Line
-  highlighted: boolean
+  left?: Line;
+  right?: Line;
+  down?: Line;
+  up?: Line;
+  highlighted: boolean;
+
 }
 
 interface DotsBoxesStore {
@@ -42,7 +43,7 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
   startGame: () =>
     setState((state) => ({
       playing: !state.playing,
-      grid: emptyGrid,
+      grid: JSON.parse(JSON.stringify(emptyGrid)),
       winner: "",
       lineDrawState: { startRow: NaN, startCol: NaN, canDrawLine: false },
     })),
