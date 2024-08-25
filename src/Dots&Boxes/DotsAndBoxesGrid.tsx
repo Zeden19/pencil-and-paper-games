@@ -14,6 +14,7 @@ function DotsAndBoxesGrid() {
             <div
               style={{ height: "115px" }}
               className={cx({ col: true, heightSmall: rowIndex === 4, "mt-4": rowIndex === 0 })}
+              key={row + " " + colIndex}
             >
               <Cell cell={cell} rowIndex={rowIndex} colIndex={colIndex} />
             </div>
