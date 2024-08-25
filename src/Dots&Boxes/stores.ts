@@ -1,10 +1,10 @@
 import { create } from "zustand";
 
 interface Dot {
-  left: boolean;
-  right: boolean;
-  down: boolean;
-  top: boolean;
+  left?: boolean;
+  right?: boolean;
+  down?: boolean;
+  top?: boolean;
 }
 
 interface DotsBoxesStore {
@@ -21,48 +21,31 @@ interface DotsBoxesStore {
   setWinner: (winner: string) => void;
 }
 
-const emptyGrid = [
-  [
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-  ],
-  [
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-  ],
-  [
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-  ],
-  [
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-  ],
-  [
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-    { left: false, right: false, down: false, top: false, owner: "" },
-  ],
+const topRow = [
+  { right: false, down: false },
+  { left: false, right: false, down: false },
+  { left: false, right: false, down: false },
+  { left: false, right: false, down: false },
+  { left: false, right: false, down: false },
+  { left: false, down: false },
 ];
+const bottomRow = [
+  { right: false, top: false },
+  { left: false, right: false, top: false },
+  { left: false, right: false, top: false },
+  { left: false, right: false, top: false },
+  { left: false, right: false, top: false },
+  { left: false, top: false },
+];
+const middleRow = [
+  { right: false, down: false, top: false },
+  { left: false, right: false, down: false, top: false },
+  { left: false, right: false, down: false, top: false },
+  { left: false, right: false, down: false, top: false },
+  { left: false, right: false, down: false, top: false },
+  { left: false, down: false, top: false },
+];
+const emptyGrid = [topRow, middleRow, middleRow, middleRow, bottomRow];
 
 const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
   grid: emptyGrid,

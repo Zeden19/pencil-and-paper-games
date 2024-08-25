@@ -14,7 +14,7 @@ function DotsAndBoxesGrid() {
               key={rowIndex.toString() + " " + colIndex.toString()}
             >
               <svg viewBox="0 0 80 80" width="25" height="25">
-                <circle className="circle" cx="40" cy="40" r="38" />
+                <circle role={"button"} className="circle" cx="40" cy="40" r="38" />
               </svg>
             </div>
           )),
