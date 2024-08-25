@@ -1,8 +1,6 @@
 import useDotsAndBoxes, { Dot } from "./stores.ts";
-import { useState } from "react";
 import styles from "./styles.module.css";
 import classNames from "classnames/bind";
-import { Simulate } from "react-dom/test-utils";
 
 interface Props {
   rowIndex: number;
@@ -11,27 +9,19 @@ interface Props {
 }
 
 function Cell({ rowIndex, colIndex, cell }: Props) {
-  const {
-    setGrid,
-    turn,
-    setTurn,
-    winner,
-    setWinner,
-    playing,
-    lineDrawState,
-    setLineDrawState,
-  } = useDotsAndBoxes();
-  let {grid} = useDotsAndBoxes();
+  const { setGrid, turn, setTurn, winner, setWinner, playing, lineDrawState, setLineDrawState } =
+    useDotsAndBoxes();
+  let { grid } = useDotsAndBoxes();
 
   const cx = classNames.bind(styles);
-  
+
   function setCellHighlighted() {
     if (cell.right !== undefined) grid[rowIndex][colIndex + 1].highlighted = true;
     if (cell.left !== undefined) grid[rowIndex][colIndex - 1].highlighted = true;
     if (cell.down !== undefined) grid[rowIndex + 1][colIndex].highlighted = true;
     if (cell.up !== undefined) grid[rowIndex - 1][colIndex].highlighted = true;
   }
-  
+
   function handleClick() {
     if (!playing) return;
 
@@ -41,16 +31,15 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
         console.log("Current Cell " + rowIndex + " " + colIndex);
         return;
       }
-      
+
       // make everything  and set lineDrawState to something else
-      grid = (grid.map(row => row.map(cell => ({...cell, highlighted: false}))));
+      grid = grid.map((row) => row.map((cell) => ({ ...cell, highlighted: false })));
       setCellHighlighted();
       setGrid(grid);
       setLineDrawState(rowIndex, colIndex, true);
       return;
     }
-    
-    
+
     setCellHighlighted();
     setLineDrawState(rowIndex, colIndex, true);
     setGrid(grid);

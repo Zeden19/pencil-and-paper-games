@@ -1,12 +1,18 @@
 import { create } from "zustand";
 import emptyGrid from "./emptyGrid.ts";
 
+export interface Line {
+  line: boolean;
+  cellRow: number;
+  cellCol: number;
+}
+
 export interface Dot {
-  left?: boolean;
-  right?: boolean;
-  down?: boolean;
-  up?: boolean;
-  highlighted: boolean;
+  left?: Line
+  right?: Line
+  down?: Line
+  up?: Line
+  highlighted: boolean
 }
 
 interface DotsBoxesStore {
@@ -36,7 +42,7 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
   startGame: () =>
     setState((state) => ({
       playing: !state.playing,
-      grid: JSON.parse(JSON.stringify(emptyGrid)),
+      grid: emptyGrid,
       winner: "",
       lineDrawState: { startRow: NaN, startCol: NaN, canDrawLine: false },
     })),
