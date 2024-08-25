@@ -1,6 +1,5 @@
 import { create } from "zustand";
-import emptyChip from "../assets/emptyChip.png";
-
+import emptyGrid from "./emptyGrid.ts";
 interface Connect4Tile {
   turn: string;
   src: string;
@@ -21,89 +20,8 @@ interface Connect4Store {
   setWinner: (winner: string) => void;
 }
 
-const emptyGrid = [
-  [
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    {
-      turn: "",
-      src: emptyChip,
-      winning: false,
-    },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-  ],
-  [
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    {
-      turn: "",
-      src: emptyChip,
-      winning: false,
-    },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-  ],
-  [
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    {
-      turn: "",
-      src: emptyChip,
-      winning: false,
-    },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-  ],
-  [
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    {
-      turn: "",
-      src: emptyChip,
-      winning: false,
-    },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-  ],
-  [
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    {
-      turn: "",
-      src: emptyChip,
-      winning: false,
-    },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-  ],
-  [
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    {
-      turn: "",
-      src: emptyChip,
-      winning: false,
-    },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-    { turn: "", src: emptyChip, winning: false },
-  ],
-];
-
 const useConnect4Store = create<Connect4Store>((setState) => ({
-  grid: emptyGrid,
+  grid: JSON.parse(JSON.stringify(emptyGrid)),
   vsCpu: true,
   turn: "red",
   playing: false,
@@ -112,86 +30,7 @@ const useConnect4Store = create<Connect4Store>((setState) => ({
   startGame: () =>
     setState((state) => ({
       playing: !state.playing,
-      grid: [
-        [
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          {
-            turn: "",
-            src: emptyChip,
-            winning: false,
-          },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-        ],
-        [
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          {
-            turn: "",
-            src: emptyChip,
-            winning: false,
-          },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-        ],
-        [
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          {
-            turn: "",
-            src: emptyChip,
-            winning: false,
-          },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-        ],
-        [
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          {
-            turn: "",
-            src: emptyChip,
-            winning: false,
-          },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-        ],
-        [
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          {
-            turn: "",
-            src: emptyChip,
-            winning: false,
-          },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-        ],
-        [
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          {
-            turn: "",
-            src: emptyChip,
-            winning: false,
-          },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-          { turn: "", src: emptyChip, winning: false },
-        ],
-      ],
+      grid: JSON.parse(JSON.stringify(emptyGrid)),
       winner: "",
     })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),

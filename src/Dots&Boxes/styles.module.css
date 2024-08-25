@@ -12,3 +12,11 @@
 .heightSmall {
   height: 50px !important;
 }
+
+.cellClicked {
+  fill: red;
+}
+
+.cellHighlighted {
+  fill: blue;
+}

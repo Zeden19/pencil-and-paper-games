@@ -1,8 +1,11 @@
 import useDotsAndBoxes from "./stores.ts";
 import styles from "./styles.module.css";
+import Cell from "./Cell.tsx";
+import classNames from "classnames/bind";
 
 function DotsAndBoxesGrid() {
   const { grid } = useDotsAndBoxes();
+  const cx = classNames.bind(styles);
   return (
     <div style={{ maxWidth: "900px" }} className={"container text-center"}>
       <div className={"row row-cols-6"}>
@@ -10,12 +13,9 @@ function DotsAndBoxesGrid() {
           row.map((cell, colIndex) => (
             <div
               style={{ height: "115px" }}
-              className={`col ${rowIndex === 4 && styles.heightSmall} ${rowIndex === 0 && "mt-4"}`}
-              key={rowIndex.toString() + " " + colIndex.toString()}
+              className={cx({ col: true, heightSmall: rowIndex === 4, "mt-4": rowIndex === 0 })}
             >
-              <svg viewBox="0 0 80 80" width="25" height="25">
-                <circle role={"button"} className="circle" cx="40" cy="40" r="38" />
-              </svg>
+              <Cell cell={cell} rowIndex={rowIndex} colIndex={colIndex} />
             </div>
           )),
         )}

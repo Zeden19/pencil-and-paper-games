@@ -1,10 +1,12 @@
 import { create } from "zustand";
+import emptyGrid from "./emptyGrid.ts";
 
-interface Dot {
+export interface Dot {
   left?: boolean;
   right?: boolean;
   down?: boolean;
-  top?: boolean;
+  up?: boolean;
+  highlighted: boolean;
 }
 
 interface DotsBoxesStore {
@@ -20,35 +22,8 @@ interface DotsBoxesStore {
   setGrid: (newGrid: Dot[][]) => void;
   setWinner: (winner: string) => void;
 }
-
-const topRow = [
-  { right: false, down: false },
-  { left: false, right: false, down: false },
-  { left: false, right: false, down: false },
-  { left: false, right: false, down: false },
-  { left: false, right: false, down: false },
-  { left: false, down: false },
-];
-const bottomRow = [
-  { right: false, top: false },
-  { left: false, right: false, top: false },
-  { left: false, right: false, top: false },
-  { left: false, right: false, top: false },
-  { left: false, right: false, top: false },
-  { left: false, top: false },
-];
-const middleRow = [
-  { right: false, down: false, top: false },
-  { left: false, right: false, down: false, top: false },
-  { left: false, right: false, down: false, top: false },
-  { left: false, right: false, down: false, top: false },
-  { left: false, right: false, down: false, top: false },
-  { left: false, down: false, top: false },
-];
-const emptyGrid = [topRow, middleRow, middleRow, middleRow, bottomRow];
-
 const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
-  grid: emptyGrid,
+  grid: JSON.parse(JSON.stringify(emptyGrid)),
   vsCpu: true,
   turn: "red",
   playing: false,
@@ -57,7 +32,7 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
   startGame: () =>
     setState((state) => ({
       playing: !state.playing,
-      grid: emptyGrid,
+      grid: JSON.parse(JSON.stringify(emptyGrid)),
       winner: "",
     })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
