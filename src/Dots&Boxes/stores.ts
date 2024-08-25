@@ -13,7 +13,6 @@ export interface Dot {
   down?: Line;
   up?: Line;
   highlighted: boolean;
-
 }
 
 interface DotsBoxesStore {

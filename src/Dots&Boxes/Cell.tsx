@@ -8,6 +8,19 @@ interface Props {
   cell: Dot;
 }
 
+function oppositeDirection(direction: string) {
+  switch (direction) {
+    case "right":
+      return "left";
+    case "left":
+      return "right";
+    case "up":
+      return "down";
+    case "down":
+      return "up";
+  }
+}
+
 //todo add more customizability to the store to allow for specific values to change without changing the whole grid
 // for example: setHighlighted (row, col, boolean), setLine(). This will prevent unnecessary re-renders
 function Cell({ rowIndex, colIndex, cell }: Props) {
@@ -37,9 +50,10 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
             (selectedCell[key as keyof Dot] as Line).cellRow === rowIndex &&
             (selectedCell[key as keyof Dot] as Line).cellCol === colIndex,
         );
-        console.log(
-          "draw line from " + selectedCell + " to " + selectedCell[direction! as keyof Dot],
-        );
+
+        (selectedCell[direction! as keyof Dot] as Line).line = true;
+        (cell[oppositeDirection(direction!) as keyof Dot] as Line).line = true
+        setGrid(grid);
         return;
       }
 
