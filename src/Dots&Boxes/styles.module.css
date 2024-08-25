@@ -4,3 +4,11 @@
   stroke: #0F1C3F;
   stroke-width: 0.1875em;
 }
+
+.heightBig {
+  height: 170px !important;
+}
+
+.heightSmall {
+  height: 50px !important;
+}
