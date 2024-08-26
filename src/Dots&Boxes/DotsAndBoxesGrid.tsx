@@ -13,7 +13,13 @@ function DotsAndBoxesGrid() {
           row.map((cell, colIndex) => (
             <div
               style={{ height: "115px" }}
-              className={cx({ col: true, heightSmall: rowIndex === 4, "mt-4": rowIndex === 0 })}
+              className={cx({
+                col: true,
+                heightSmall: rowIndex === 4,
+                "mt-4": rowIndex === 0,
+                lineRight: cell.right?.line,
+                lineDown: cell.down?.line
+              })}
               key={row + " " + colIndex}
             >
               <Cell cell={cell} rowIndex={rowIndex} colIndex={colIndex} />

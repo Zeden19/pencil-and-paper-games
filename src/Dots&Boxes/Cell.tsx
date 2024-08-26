@@ -24,50 +24,49 @@ function oppositeDirection(direction: string) {
 //todo add more customizability to the store to allow for specific values to change without changing the whole grid
 // for example: setHighlighted (row, col, boolean), setLine(). This will prevent unnecessary re-renders
 function Cell({ rowIndex, colIndex, cell }: Props) {
-  const { setGrid, turn, setTurn, winner, setWinner, playing, lineDrawState, setLineDrawState } =
-    useDotsAndBoxes();
-  let { grid } = useDotsAndBoxes();
+  const {
+    setGrid,
+    turn,
+    setTurn,
+    winner,
+    setWinner,
+    playing,
+    lineDrawState,
+    setLineDrawState,
+    setCellsHighlighted,
+    grid,
+  } = useDotsAndBoxes();
 
   const cx = classNames.bind(styles);
-
-  function setCellHighlighted() {
-    if (cell.right !== undefined) grid[rowIndex][colIndex + 1].highlighted = true;
-    if (cell.left !== undefined) grid[rowIndex][colIndex - 1].highlighted = true;
-    if (cell.down !== undefined) grid[rowIndex + 1][colIndex].highlighted = true;
-    if (cell.up !== undefined) grid[rowIndex - 1][colIndex].highlighted = true;
-  }
 
   function handleClick() {
     if (!playing) return;
 
-    if (lineDrawState.canDrawLine) {
-      if (cell.highlighted) {
-        // at this point, we know that the cell in lineDrawState can make a line to the selected cell
-        const selectedCell = grid[lineDrawState.startRow][lineDrawState.startCol];
+    if (lineDrawState.canDrawLine && cell.highlighted) {
+      // at this point, we know that the cell in lineDrawState can make a line to the selected cell
+      const selectedCell = grid[lineDrawState.startRow][lineDrawState.startCol];
 
-        const direction = Object.keys(selectedCell).find(
-          (key) =>
-            (selectedCell[key as keyof Dot] as Line).cellRow === rowIndex &&
-            (selectedCell[key as keyof Dot] as Line).cellCol === colIndex,
-        );
+      const direction = Object.keys(selectedCell).find(
+        (key) =>
+          (selectedCell[key as keyof Dot] as Line).cellRow === rowIndex &&
+          (selectedCell[key as keyof Dot] as Line).cellCol === colIndex,
+      );
 
-        (selectedCell[direction! as keyof Dot] as Line).line = true;
-        (cell[oppositeDirection(direction!) as keyof Dot] as Line).line = true
-        setGrid(grid);
-        return;
-      }
-
-      // make everything un-highlighted and set lineDrawState to something else
-      grid = grid.map((row) => row.map((cell) => ({ ...cell, highlighted: false })));
-      setCellHighlighted();
+      (selectedCell[direction! as keyof Dot] as Line).line = true;
+      (cell[oppositeDirection(direction!) as keyof Dot] as Line).line = true;
       setGrid(grid);
-      setLineDrawState(rowIndex, colIndex, true);
       return;
     }
 
-    setCellHighlighted();
+    // at this point, we have to re-set the cells highlighted (and line draw state)
+    // set the correct cells to be highlighted (and un-highlights cells)
+    setCellsHighlighted([
+      { row: rowIndex, col: colIndex + 1 },
+      { row: rowIndex, col: colIndex - 1 },
+      { row: rowIndex + 1, col: colIndex },
+      { row: rowIndex - 1, col: colIndex },
+    ]);
     setLineDrawState(rowIndex, colIndex, true);
-    setGrid(grid);
   }
 
   return (
