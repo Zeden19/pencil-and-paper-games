@@ -60,6 +60,9 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
       (selectedCell[direction! as keyof Dot] as Line).line = true;
       (cell[oppositeDirection(direction!) as keyof Dot] as Line).line = true;
       setGrid(grid);
+      setCellsHighlighted();
+      setTurn();
+      setLineDrawState(NaN, NaN, false);
       return;
     }
 

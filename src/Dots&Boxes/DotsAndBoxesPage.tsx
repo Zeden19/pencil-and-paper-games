@@ -1,11 +1,10 @@
 import GamePages from "../GamePages.tsx";
 import useDotsAndBoxes from "./stores.ts";
 import DotsAndBoxesGrid from "./DotsAndBoxesGrid.tsx";
-import { Simulate } from "react-dom/test-utils";
-import reset = Simulate.reset;
+import capitalize from "../helpers/capitalize.ts";
 
 function DotsAndBoxesPage() {
-  const { playing, startGame } = useDotsAndBoxes();
+  const { playing, startGame, turn } = useDotsAndBoxes();
   return (
     <GamePages
       title={"Dots And Boxes"}
@@ -14,6 +13,7 @@ function DotsAndBoxesPage() {
       helpModalId={"dotsandboxes"}
       helpModalDescription={"dotsandboxes"}
     >
+      {capitalize(turn)} Turn
       <DotsAndBoxesGrid />
     </GamePages>
   );

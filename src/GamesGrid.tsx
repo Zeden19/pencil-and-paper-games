@@ -6,8 +6,8 @@ import GameCard from "./GameCard.tsx";
 
 const games = [
   {
-    label: "Tic Tac toe",
-    description: "The Most Simple of Simple Games.",
+    label: "Tic Tac Toe",
+    description: "The Definition of Simple.",
     img: tictactoe,
     url: "/tictactoe",
   },

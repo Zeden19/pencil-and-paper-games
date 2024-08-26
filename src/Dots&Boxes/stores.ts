@@ -1,3 +1,7 @@
+//todo clean up code, specifically, let the Dots know where it is in the grid
+// maybe use class???
+
+//todo abstract mapping logic
 import { create } from "zustand";
 import emptyGrid from "./emptyGrid.ts";
 
@@ -22,15 +26,14 @@ interface DotsBoxesStore {
   turn: "red" | "blue";
   playing: boolean;
   winner: string;
-
+  
   startGame: () => void;
   setVsCpu: () => void;
-
   setTurn: () => void;
   setLineDrawState: (startRow: number, startCol: number, canDrawLine: boolean) => void;
-  setCellsHighlighted: (cells: { row: number; col: number }[]) => void;
+  setCellsHighlighted: (cells?: { row: number; col: number }[]) => void;
   setGrid: (newGrid: Dot[][]) => void;
-
+  
   setWinner: (winner: string) => void;
 }
 
@@ -41,30 +44,30 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
   turn: "red",
   playing: false,
   winner: "",
-
+  
   startGame: () =>
     setState((state) => ({
       playing: !state.playing,
       grid: JSON.parse(JSON.stringify(emptyGrid)),
       winner: "",
-      lineDrawState: { startRow: NaN, startCol: NaN, canDrawLine: false },
+      lineDrawState: { startRow: NaN, startCol: NaN, canDrawLine: false }
     })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
   setTurn: () => setState((state) => ({ turn: state.turn === "red" ? "blue" : "red" })),
   setGrid: (newGrid: Dot[][]) => setState(() => ({ grid: newGrid })),
-  setCellsHighlighted: (cells: { row: number; col: number }[]) =>
+  setCellsHighlighted: (cells?: { row: number; col: number }[]) =>
     setState((state) => ({
       grid: state.grid.map((row, rowIndex) =>
         row.map((col, colIndex) =>
-          cells.some((cell) => cell.row === rowIndex && cell.col === colIndex)
+          cells?.some((cell) => cell.row === rowIndex && cell.col === colIndex)
             ? { ...col, highlighted: true }
-            : { ...col, highlighted: false },
-        ),
-      ),
+            : { ...col, highlighted: false }
+        )
+      )
     })),
   setLineDrawState: (row: number, col: number, canDrawLine: boolean) =>
     setState(() => ({ lineDrawState: { startRow: row, startCol: col, canDrawLine: canDrawLine } })),
-  setWinner: (winner) => setState(() => ({ winner: winner, playing: false })),
+  setWinner: (winner) => setState(() => ({ winner: winner, playing: false }))
 }));
 
 export default useDotsAndBoxes;
