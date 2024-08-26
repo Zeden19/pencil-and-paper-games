@@ -1,6 +1,7 @@
 import useDotsAndBoxes, { Dot, Line } from "./stores.ts";
 import styles from "./styles.module.css";
 import classNames from "classnames/bind";
+import Lines from "./Lines.tsx";
 
 interface Props {
   rowIndex: number;
@@ -36,6 +37,10 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
     setCellsHighlighted,
     grid,
   } = useDotsAndBoxes();
+
+  const circleX = 50;
+  const circleY = 50;
+  const circleRadius = 10;
 
   const cx = classNames.bind(styles);
 
@@ -79,22 +84,11 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
           cellClicked: rowIndex === lineDrawState.startRow && colIndex === lineDrawState.startCol,
         })}
         role={"button"}
-        cx="50"
-        cy="50"
-        r="10"
+        cx={circleX}
+        cy={circleY}
+        r={circleRadius}
       />
-      {cell.right?.line && (
-        <line stroke={"black"} className={styles.line} x1={"60"} x2={"100"} y1={"50"} y2={"50"} />
-      )}
-      {cell.left?.line && (
-        <line stroke={"black"} className={styles.line} x1={"40"} x2={"0"} y1={"50"} y2={"50"} />
-      )}
-      {cell.down?.line && (
-        <line stroke={"black"} className={styles.line} x1={"50"} x2={"50"} y1={"60"} y2={"100"} />
-      )}
-      {cell.up?.line && (
-        <line stroke={"black"} className={styles.line} x1={"50"} x2={"50"} y1={"0"} y2={"40"} />
-      )}
+      <Lines xCord={circleX} yCord={circleY} radius={circleRadius} cell={cell} />
     </svg>
   );
 }
