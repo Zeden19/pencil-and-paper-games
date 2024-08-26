@@ -1,16 +1,15 @@
 .circle {
   fill: black;
   stroke: #0F1C3F;
-  stroke-width: 0.1875em;
 }
 
-.heightBig {
-  height: 170px !important;
-}
+/*.heightBig {*/
+/*  height: 170px !important;*/
+/*}*/
 
-.heightSmall {
-  height: 50px !important;
-}
+/*.heightSmall {*/
+/*  height: 170px !important;*/
+/*}*/
 
 .cellClicked {
   fill: red;
@@ -20,10 +19,6 @@
   fill: blue;
 }
 
-.lineRight {
-  border-top: 1px solid black;
-}
-
-.lineDown {
-  border-right: 1px solid black;
+.line {
+  stroke-width: 7px;
 }
