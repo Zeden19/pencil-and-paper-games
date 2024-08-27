@@ -1,5 +1,16 @@
 import { Dot, Line } from "./stores.ts";
 
+export const directions: {
+  direction: "down" | "left" | "right" | "up";
+  rowIncrement: number;
+  colIncrement: number;
+}[] = [
+  { direction: "right", colIncrement: 1, rowIncrement: 0 },
+  { direction: "left", colIncrement: -1, rowIncrement: 0 },
+  { direction: "up", colIncrement: 0, rowIncrement: -1 },
+  { direction: "down", colIncrement: 0, rowIncrement: 1 },
+];
+
 const emptyGrid: Dot[][] = [
   // TOP ROW
   [
@@ -50,11 +61,15 @@ const emptyGrid: Dot[][] = [
 
 emptyGrid.map((row, rowIndex) =>
   row.map((col, colIndex) => {
-    if (col.right !== undefined)
-      col.right = { line: false, cellRow: rowIndex, cellCol: colIndex + 1};
-    if (col.left !== undefined) col.left = { line: false, cellRow: rowIndex, cellCol: colIndex - 1} ;
-    if (col.down !== undefined) col.down = { line: false, cellRow: rowIndex + 1, cellCol: colIndex} ;
-    if (col.up !== undefined) col.up = { line: false, cellRow: rowIndex - 1, cellCol: colIndex};
+    for (let i = 0; i < directions.length; i++) {
+      const direction = directions[i];
+      if (col[direction.direction] !== undefined)
+        col[direction.direction] = {
+          line: false,
+          cellRow: rowIndex + direction.rowIncrement,
+          cellCol: colIndex + direction.colIncrement,
+        };
+    }
   }),
 );
 

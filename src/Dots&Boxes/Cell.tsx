@@ -2,6 +2,7 @@ import useDotsAndBoxes, { Dot, Line } from "./stores.ts";
 import styles from "./styles.module.css";
 import classNames from "classnames/bind";
 import Lines from "./Lines.tsx";
+import { directions } from "./emptyGrid.ts";
 
 interface Props {
   rowIndex: number;
@@ -46,6 +47,19 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
 
   function handleClick() {
     if (!playing) return;
+    
+    let cellsHighlighted: { row: number; col: number }[] = [];
+    for (let i = 0; i < directions.length; i++) {
+      const direction = directions[i];
+      if (cell[direction.direction]?.line === false) {
+        cellsHighlighted = [
+          ...cellsHighlighted,
+          { row: direction.rowIncrement + rowIndex, col: direction.colIncrement + colIndex },
+        ];
+      }
+    }
+    
+    if (cellsHighlighted.length === 0) return;
 
     if (lineDrawState.canDrawLine && cell.highlighted) {
       // at this point, we know that the cell in lineDrawState can make a line to the selected cell
@@ -66,12 +80,7 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
 
     // at this point, we have to re-set the cells highlighted (and line draw state)
     // set the correct cells to be highlighted (and un-highlights cells)
-    setCellsHighlighted([
-      { row: rowIndex, col: colIndex + 1 },
-      { row: rowIndex, col: colIndex - 1 },
-      { row: rowIndex + 1, col: colIndex },
-      { row: rowIndex - 1, col: colIndex },
-    ]);
+    setCellsHighlighted(cellsHighlighted);
     setLineDrawState(rowIndex, colIndex, true);
   }
 
