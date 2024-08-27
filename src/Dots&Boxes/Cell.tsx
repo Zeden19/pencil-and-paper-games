@@ -1,8 +1,9 @@
-import useDotsAndBoxes, { Dot, Line } from "./stores.ts";
+import useDotsAndBoxes, { Box, Dot, Line } from "./stores.ts";
 import styles from "./styles.module.css";
 import classNames from "classnames/bind";
 import Lines from "./Lines.tsx";
-import { directions } from "./emptyGrid.ts";
+import emptyGrid, { directions } from "./emptyGrid.ts";
+import { useState } from "react";
 
 interface Props {
   rowIndex: number;
@@ -23,8 +24,6 @@ function oppositeDirection(direction: string) {
   }
 }
 
-//todo add more customizability to the store to allow for specific values to change without changing the whole grid
-// for example: setHighlighted (row, col, boolean), setLine(). This will prevent unnecessary re-renders
 function Cell({ rowIndex, colIndex, cell }: Props) {
   const {
     setGrid,
@@ -37,17 +36,20 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
     setLineDrawState,
     setCellsHighlighted,
     grid,
+    boxGrid
   } = useDotsAndBoxes();
-
+  
   const circleX = 50;
   const circleY = 50;
   const circleRadius = 10;
 
   const cx = classNames.bind(styles);
+  
+  console.log(boxGrid);
 
   function handleClick() {
     if (!playing) return;
-    
+
     let cellsHighlighted: { row: number; col: number }[] = [];
     for (let i = 0; i < directions.length; i++) {
       const direction = directions[i];
@@ -58,7 +60,7 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
         ];
       }
     }
-    
+
     if (cellsHighlighted.length === 0) return;
 
     if (lineDrawState.canDrawLine && cell.highlighted) {
