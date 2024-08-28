@@ -17,18 +17,26 @@ export interface Dot {
   down?: Line;
   up?: Line;
   highlighted: boolean;
+
+  [index: string]: Line | undefined | boolean;
 }
 
 export interface Box {
-  topLine: Line;
-  bottomLine: Line;
-  rightLine: Line;
-  leftLine: Line;
+  directions: BoxDirections
+  owner: "red" | "blue" | undefined;
+}
+
+interface BoxDirections {
+  left: Line;
+  right: Line;
+  down: Line;
+  up: Line;
 }
 
 interface DotsBoxesStore {
   grid: Dot[][];
   boxGrid: Box[][];
+  scores: { red: number; blue: number };
   vsCpu: boolean;
   lineDrawState: { startRow: number; startCol: number; canDrawLine: boolean };
   turn: "red" | "blue";
@@ -36,6 +44,7 @@ interface DotsBoxesStore {
   winner: string;
 
   startGame: () => void;
+  setScore: (turn: "red" | "blue") => void;
   setVsCpu: () => void;
   setTurn: () => void;
   setLineDrawState: (startRow: number, startCol: number, canDrawLine: boolean) => void;
@@ -49,10 +58,13 @@ const initializeBoxGrid = (boxGrid: Box[][], dotGrid: Dot[][]) => {
   for (let i = 0; i < dotGrid.length - 1; i++) {
     for (let j = 0; j < dotGrid[0].length - 1; j++) {
       boxGrid[i][j] = {
-        leftLine: dotGrid[i][j].down!,
-        rightLine: dotGrid[i][j + 1].down!,
-        bottomLine: dotGrid[i + 1][j].right!,
-        topLine: dotGrid[i][j].right!,
+        directions: {
+          left: dotGrid[i][j].down!,
+          right: dotGrid[i][j + 1].down!,
+          down: dotGrid[i + 1][j].right!,
+          up: dotGrid[i][j].right!
+        },
+        owner: undefined,
       };
     }
   }
@@ -64,6 +76,7 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
   boxGrid: new Array(emptyGrid.length - 1)
     .fill(0)
     .map(() => new Array(emptyGrid[0].length - 1).fill(0)),
+  scores: { red: 0, blue: 0 },
   vsCpu: true,
   lineDrawState: { startRow: NaN, startCol: NaN, canDrawLine: false },
   turn: "red",
@@ -77,7 +90,10 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
       winner: "",
       lineDrawState: { startRow: NaN, startCol: NaN, canDrawLine: false },
       boxGrid: initializeBoxGrid(state.boxGrid, state.grid),
+      scores: { red: 0, blue: 0 },
     })),
+  setScore: (turn: "red" | "blue") =>
+    setState((state) => ({ scores: { ...state.scores, turn: (state.scores[turn] += 1) } })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
   setTurn: () =>
     setState((state) => ({

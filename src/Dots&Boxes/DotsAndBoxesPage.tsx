@@ -4,7 +4,7 @@ import DotsAndBoxesGrid from "./DotsAndBoxesGrid.tsx";
 import capitalize from "../helpers/capitalize.ts";
 
 function DotsAndBoxesPage() {
-  const { playing, startGame, turn } = useDotsAndBoxes();
+  const { playing, startGame, turn, scores } = useDotsAndBoxes();
   return (
     <GamePages
       title={"Dots And Boxes"}
@@ -15,6 +15,7 @@ function DotsAndBoxesPage() {
     >
       {capitalize(turn)} Turn
       <DotsAndBoxesGrid />
+      {"Red: " + scores.red + " Blue: " + scores.blue}
     </GamePages>
   );
 }
