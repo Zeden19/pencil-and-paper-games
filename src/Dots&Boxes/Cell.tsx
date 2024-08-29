@@ -1,4 +1,4 @@
-import useDotsAndBoxes, { Dot, Line } from "./stores.ts";
+import useDotsAndBoxes, { Box, Dot, Line } from "./stores.ts";
 import styles from "./styles.module.css";
 import classNames from "classnames/bind";
 import Lines from "./Lines.tsx";
@@ -23,6 +23,10 @@ function oppositeDirection(direction: string) {
   }
 }
 
+function isBoxComplete(box: Box): boolean {
+  return Object.values(box!.directions).every((value: Line) => value.line);
+}
+
 function Cell({ rowIndex, colIndex, cell }: Props) {
   const {
     setGrid,
@@ -36,7 +40,22 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
     setCellsHighlighted,
     grid,
     boxGrid,
+    scores: { red, blue },
+    setScore,
   } = useDotsAndBoxes();
+
+  function setScoreGridTurn(box: Box) {
+    if (isBoxComplete(box!)) {
+      box.completed = true;
+      setScore(turn);
+      setGrid(grid);
+      setTurn(turn);
+      if (boxGrid.flat().every((cell) => isBoxComplete(cell)))
+      setWinner(red > blue ? "Red" : red < blue ? "Blue" : "Nobody");
+      return true;
+    }
+    return false;
+  }
 
   const circleX = 50;
   const circleY = 50;
@@ -91,23 +110,26 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
           ),
         );
 
-      if (Object.values(box!.directions).every((value: Line) => value.line))
-        console.log("KILL MEE");
-
+      // most lines are a part of 2 boxes, so here we check the other box
+      let box2;
       const boxRow = boxGrid.findIndex((row) => row.includes(box!));
       const boxCol = boxGrid[boxRow].findIndex((boxCell) => boxCell === box);
-      let box2;
 
-      if ((direction === "right" || direction === "left") && boxRow !== 3 && boxRow !== 0)
+      if (
+        (direction === "right" || direction === "left") &&
+        boxRow !== 3 &&
+        drawnLine.startRow !== 0
+      )
         box2 = boxGrid[boxRow + 1][boxCol];
       else if ((direction === "up" || direction === "down") && boxCol !== 0)
         box2 = boxGrid[boxRow][boxCol + 1];
 
-      if (box2 && Object.values(box2.directions).every((value: Line) => value.line))
-        console.log("KILL ME AGAIN!");
+      if (setScoreGridTurn(box!)) return;
+      if (box2 && setScoreGridTurn(box2)) return;
 
+      // no box completed
       setGrid(grid);
-      setTurn();
+      setTurn(turn === "red" ? "blue" : "red");
       return;
     }
 

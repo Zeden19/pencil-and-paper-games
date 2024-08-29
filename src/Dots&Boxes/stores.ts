@@ -7,7 +7,7 @@ import emptyGrid from "./emptyGrid.ts";
 
 export interface Line {
   line: boolean;
-  startRow: number
+  startRow: number;
   endRow: number;
   startCol: number;
   endCol: number;
@@ -25,7 +25,7 @@ export interface Dot {
 
 export interface Box {
   directions: BoxDirections;
-  owner: "red" | "blue" | undefined;
+  completed: boolean;
 }
 
 interface BoxDirections {
@@ -50,7 +50,7 @@ interface DotsBoxesStore {
   startGame: () => void;
   setScore: (turn: "red" | "blue") => void;
   setVsCpu: () => void;
-  setTurn: () => void;
+  setTurn: (turn: "red" | "blue") => void;
   setLineDrawState: (startRow: number, startCol: number, canDrawLine: boolean) => void;
   setCellsHighlighted: (cells?: { row: number; col: number }[]) => void;
   setGrid: (newGrid: Dot[][]) => void;
@@ -68,7 +68,7 @@ const initializeBoxGrid = (boxGrid: Box[][], dotGrid: Dot[][]) => {
           down: dotGrid[i + 1][j].right!,
           up: dotGrid[i][j].right!,
         },
-        owner: undefined,
+        completed: false,
       };
     }
   }
@@ -97,11 +97,11 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
       scores: { red: 0, blue: 0 },
     })),
   setScore: (turn: "red" | "blue") =>
-    setState((state) => ({ scores: { ...state.scores, turn: (state.scores[turn] += 1) } })),
+    setState((state) => ({ scores: { ...state.scores, [turn]: state.scores[turn] += 1 } })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
-  setTurn: () =>
+  setTurn: (turn: "red" | "blue") =>
     setState((state) => ({
-      turn: state.turn === "red" ? "blue" : "red",
+      turn: turn,
       lineDrawState: { startRow: NaN, startCol: NaN, canDrawLine: false },
       grid: state.grid.map((row) => row.map((col) => ({ ...col, highlighted: false }))),
     })),
