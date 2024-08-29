@@ -66,8 +66,10 @@ emptyGrid.map((row, rowIndex) =>
       if (col[direction.direction] !== undefined)
         col[direction.direction] = {
           line: false,
-          cellRow: rowIndex + direction.rowIncrement,
-          cellCol: colIndex + direction.colIncrement,
+          startRow: rowIndex,
+          endRow: rowIndex + direction.rowIncrement,
+          startCol: colIndex,
+          endCol: colIndex + direction.colIncrement,
         };
     }
   }),

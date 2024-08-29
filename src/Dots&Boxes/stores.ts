@@ -7,8 +7,10 @@ import emptyGrid from "./emptyGrid.ts";
 
 export interface Line {
   line: boolean;
-  cellRow: number;
-  cellCol: number;
+  startRow: number
+  endRow: number;
+  startCol: number;
+  endCol: number;
 }
 
 export interface Dot {
@@ -22,7 +24,7 @@ export interface Dot {
 }
 
 export interface Box {
-  directions: BoxDirections
+  directions: BoxDirections;
   owner: "red" | "blue" | undefined;
 }
 
@@ -31,6 +33,8 @@ interface BoxDirections {
   right: Line;
   down: Line;
   up: Line;
+
+  [index: string]: Line;
 }
 
 interface DotsBoxesStore {
@@ -62,7 +66,7 @@ const initializeBoxGrid = (boxGrid: Box[][], dotGrid: Dot[][]) => {
           left: dotGrid[i][j].down!,
           right: dotGrid[i][j + 1].down!,
           down: dotGrid[i + 1][j].right!,
-          up: dotGrid[i][j].right!
+          up: dotGrid[i][j].right!,
         },
         owner: undefined,
       };

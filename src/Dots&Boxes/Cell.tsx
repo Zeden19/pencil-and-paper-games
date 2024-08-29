@@ -65,10 +65,10 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
     if (lineDrawState.canDrawLine && cell.highlighted) {
       // getting the direction of the line we want to draw
       const selectedCell = grid[lineDrawState.startRow][lineDrawState.startCol];
-      let direction = Object.keys(selectedCell).find(
+      const direction = Object.keys(selectedCell).find(
         (key) =>
-          (selectedCell[key] as Line).cellRow === rowIndex &&
-          (selectedCell[key] as Line).cellCol === colIndex,
+          (selectedCell[key] as Line).endRow === rowIndex &&
+          (selectedCell[key] as Line).endCol === colIndex,
       );
       // setting the direction AND the opposite direction of the lines
       (selectedCell[direction!] as Line).line = true;
@@ -81,20 +81,30 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
           : (cell[oppositeDirection(direction!)!] as Line);
 
       // finding the box where we drew the line
-      let box = boxGrid.flat().find((cell) =>
-        directions.find((key) => {
-          if (
-            cell.directions[key.direction].cellCol === drawnLine.cellCol &&
-            cell.directions[key.direction].cellRow === drawnLine.cellRow
-          ) {
-            direction = key.direction;
-            return true;
-          }
-        }),
-      );
+      const box = boxGrid
+        .flat()
+        .find((cell) =>
+          directions.find(
+            (key) =>
+              cell.directions[key.direction].endCol === drawnLine.endCol &&
+              cell.directions[key.direction].endRow === drawnLine.endRow,
+          ),
+        );
 
       if (Object.values(box!.directions).every((value: Line) => value.line))
         console.log("KILL MEE");
+
+      const boxRow = boxGrid.findIndex((row) => row.includes(box!));
+      const boxCol = boxGrid[boxRow].findIndex((boxCell) => boxCell === box);
+      let box2;
+
+      if ((direction === "right" || direction === "left") && boxRow !== 3 && boxRow !== 0)
+        box2 = boxGrid[boxRow + 1][boxCol];
+      else if ((direction === "up" || direction === "down") && boxCol !== 0)
+        box2 = boxGrid[boxRow][boxCol + 1];
+
+      if (box2 && Object.values(box2.directions).every((value: Line) => value.line))
+        console.log("KILL ME AGAIN!");
 
       setGrid(grid);
       setTurn();
