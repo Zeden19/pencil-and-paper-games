@@ -1,10 +1,6 @@
 import { Dot, Line } from "./stores.ts";
 
-export const directions: {
-  direction: "down" | "left" | "right" | "up";
-  rowIncrement: number;
-  colIncrement: number;
-}[] = [
+export const directions = [
   { direction: "right", colIncrement: 1, rowIncrement: 0 },
   { direction: "left", colIncrement: -1, rowIncrement: 0 },
   { direction: "up", colIncrement: 0, rowIncrement: -1 },

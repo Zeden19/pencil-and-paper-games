@@ -9,7 +9,7 @@ function DotsAndBoxesGrid() {
   return (
     <div style={{ maxWidth: "900px" }} className={"container text-center"}>
       <div className={"row row-cols-6"}>
-        {grid.map((row, rowIndex) =>
+        {grid.cellGrid.map((row, rowIndex) =>
           row.map((cell, colIndex) => (
             <div
               style={{ height: "110px" }}
