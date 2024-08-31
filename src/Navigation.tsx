@@ -9,7 +9,7 @@ function Navigation() {
   return (
     <nav className="navbar navbar-expand-sm bg-body-secondary">
       <div className="container-fluid">
-        <NavLink className="navbar-brand" to="/">
+        <NavLink className="navbar-brand" end to="/">
           <GiTicTacToe size={"3.5rem"} />
         </NavLink>
         <button

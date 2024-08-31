@@ -1,4 +1,4 @@
-import dotsandboxes from "./assets/dots&boxesPlaceholder.png";
+import dotsandboxes from "./assets/dots&boxes.png";
 import connect4 from "./assets/connect4Picture.png";
 import hangman from "./assets/hangmanPicture.png";
 import tictactoe from "./assets/tictactoePicture.png";

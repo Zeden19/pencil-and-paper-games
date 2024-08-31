@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import styles from "./styles.module.css"
 
 interface Props {
   label: string;
@@ -9,7 +10,7 @@ interface Props {
 
 function GameCard({ label, description, img, url }: Props) {
   return (
-    <div className={"card p-3 text-start h-100"}>
+    <div className={`card p-3 text-start h-100 ${styles.gameCard}`}>
       <img
         src={img}
         alt={label}

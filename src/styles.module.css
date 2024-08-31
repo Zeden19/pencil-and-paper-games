@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+.title {
+    font-family: 'kalam', sans-serif;
+}
+
+.gameTitle {
+    font-family: 'Shadows Into Light', cursive;
+}
+
+.gameCard:hover {
+    transform: scale(1.05);
+    transition: all 0.2s ease-out;
+    filter: brightness(105%);
+}
+
+.gameCard {
+    transition: all 0.2s ease-out;
+    transform: scale(1);
+}
