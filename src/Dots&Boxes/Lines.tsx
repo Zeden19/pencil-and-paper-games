@@ -1,11 +1,11 @@
-import { Dot } from "./stores.ts";
 import styles from "./styles.module.css";
+import { Cell } from "./Grid.ts";
 
 interface Props {
   xCord: number;
   yCord: number;
   radius: number;
-  cell: Dot;
+  cell: Cell;
 }
 
 function Lines({ xCord, radius, yCord, cell }: Props) {
@@ -13,7 +13,7 @@ function Lines({ xCord, radius, yCord, cell }: Props) {
   const bottom = 0;
   return (
     <>
-      {cell.right?.line && (
+      {cell.right?.drawn && (
         <line
           stroke={"black"}
           className={styles.line}
@@ -24,7 +24,7 @@ function Lines({ xCord, radius, yCord, cell }: Props) {
         />
       )}
 
-      {cell.left?.line && (
+      {cell.left?.drawn && (
         <line
           stroke={"black"}
           className={styles.line}
@@ -35,7 +35,7 @@ function Lines({ xCord, radius, yCord, cell }: Props) {
         />
       )}
 
-      {cell.down?.line && (
+      {cell.bottom?.drawn && (
         <line
           stroke={"black"}
           className={styles.line}
@@ -46,7 +46,7 @@ function Lines({ xCord, radius, yCord, cell }: Props) {
         />
       )}
 
-      {cell.up?.line && (
+      {cell.top?.drawn && (
         <line
           stroke={"black"}
           className={styles.line}

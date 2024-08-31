@@ -3,7 +3,6 @@
 
 
 import { create } from "zustand";
-import emptyGrid from "./emptyGrid.ts";
 import { Grid } from "./Grid.ts";
 
 export interface Line {
@@ -47,6 +46,7 @@ interface DotsBoxesStore {
   winner: string;
 
   startGame: () => void;
+  setGrid: (grid: Grid) => void;
   setScore: (turn: "red" | "blue") => void;
   setVsCpu: () => void;
   setTurn: (turn: "red" | "blue") => void;
@@ -70,6 +70,7 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
       lineDrawState: { startRow: NaN, startCol: NaN, canDrawLine: false },
       scores: { red: 0, blue: 0 },
     })),
+  setGrid: (newGrid: Grid) => setState(() => ({grid: newGrid})),
   setScore: (turn: "red" | "blue") =>
     setState((state) => ({ scores: { ...state.scores, [turn]: state.scores[turn] += 1 } })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
