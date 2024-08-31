@@ -21,6 +21,18 @@ const directions: Directions = {
   bottom: { rowIncrement: 1, colIncrement: 0 },
 };
 
+function oppositeDirection(direction: string) {
+  switch (direction) {
+    case "right":
+      return "left";
+    case "left":
+      return "right";
+    case "top":
+      return "bottom";
+  }
+  return "top";
+}
+
 export class Grid {
   public cellGrid: Cell[][];
   public boxGrid: Box[][];
@@ -60,14 +72,6 @@ export class Grid {
           this.cellGrid[row + 1][col + 1].left!,
           this.cellGrid[row + 1][col].top!,
         );
-
-        // const box = this.boxGrid[row][col];
-        // [
-        //   cell.right,
-        //   this.cellGrid[row][col + 1].bottom!,
-        //   this.cellGrid[row + 1][col + 1].left!,
-        //   this.cellGrid[row + 1][col].top!,
-        // ].forEach(line => line?.setBox(box));
       }
     }
   }
@@ -112,6 +116,7 @@ export class Grid {
     this.unSelectCell();
     this.unHighlightAllCells();
 
+    //todo find a way to fix these errors
     const keyDirections = Object.keys(directions);
     if (keyDirections.every((direction) => cell[direction]?.drawn === true)) return;
 
@@ -129,32 +134,15 @@ export class Grid {
     const selectedCell = this.cellGrid.flat().find((cell) => cell.selected);
     let lineDrawn;
 
-    if (selectedCell!.right?.goingTo === highLightedCell) {
-      selectedCell!.right.drawn = true;
-      if (highLightedCell.left) {
-        highLightedCell.left.drawn = true;
+    Object.keys(directions).forEach((direction) => {
+      if (selectedCell![direction]?.goingTo === highLightedCell) {
+        selectedCell![direction].drawn = true;
+        if (highLightedCell[oppositeDirection(direction)])
+          highLightedCell[oppositeDirection(direction)]!.drawn = true;
+        lineDrawn = selectedCell![direction];
       }
-      lineDrawn = selectedCell!.right;
-    } else if (selectedCell!.left?.goingTo === highLightedCell) {
-      selectedCell!.left.drawn = true;
-      if (highLightedCell.right) {
-        highLightedCell.right.drawn = true;
-      }
-      lineDrawn = selectedCell!.left;
-    } else if (selectedCell!.top?.goingTo === highLightedCell) {
-      selectedCell!.top.drawn = true;
-      if (highLightedCell.bottom) {
-        highLightedCell.bottom.drawn = true;
-      }
-      lineDrawn = selectedCell!.top;
-    } else {
-      selectedCell!.bottom!.drawn = true;
-      if (highLightedCell.top) {
-        highLightedCell.top.drawn = true;
-      }
-      lineDrawn = selectedCell!.bottom;
-    }
-
+    });
+    
     this.unHighlightAllCells();
     this.unSelectCell();
     return lineDrawn;
