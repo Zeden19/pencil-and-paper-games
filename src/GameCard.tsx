@@ -10,7 +10,6 @@ interface Props {
 function GameCard({ label, description, img, url }: Props) {
   return (
     <div className={"card p-3 text-start h-100"}>
-      {/*todo: fix image sizes*/}
       <img
         src={img}
         alt={label}

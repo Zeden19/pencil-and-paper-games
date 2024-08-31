@@ -1,41 +1,5 @@
-//Refactor time: Cells and lines don't know where they are. Lines also are made weird because they don't match with boxes
-// box references do not work
-
-
 import { create } from "zustand";
 import { Grid } from "./Grid.ts";
-
-export interface Line {
-  line: boolean;
-  startRow: number;
-  endRow: number;
-  startCol: number;
-  endCol: number;
-}
-
-export interface Dot {
-  left?: Line;
-  right?: Line;
-  down?: Line;
-  up?: Line;
-  highlighted: boolean;
-
-  [index: string]: Line | undefined | boolean;
-}
-
-export interface Box {
-  directions: BoxDirections;
-  completed: boolean;
-}
-
-interface BoxDirections {
-  left: Line;
-  right: Line;
-  down: Line;
-  up: Line;
-
-  [index: string]: Line;
-}
 
 interface DotsBoxesStore {
   grid: Grid;

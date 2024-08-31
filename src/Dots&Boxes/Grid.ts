@@ -1,16 +1,25 @@
-// Make better: Use OOP instead. Classes are grid, Cell, Line and Box.
-// grid is simply the container. Cells have line objects, correlating to their direction.
-// Lines have their direction, and the boxes they are apart of
-// Boxes have the lines that make them up and value stating who they are owned by (to be used on front end)
-
 //todo add way to look through all directions without all if statements
 
-const directions = [
-  { direction: "right", colIncrement: 1, rowIncrement: 0 },
-  { direction: "left", colIncrement: -1, rowIncrement: 0 },
-  { direction: "up", colIncrement: 0, rowIncrement: -1 },
-  { direction: "down", colIncrement: 0, rowIncrement: 1 },
-];
+interface Direction {
+  rowIncrement: number;
+  colIncrement: number;
+}
+
+interface Directions {
+  right: Direction;
+  left: Direction;
+  top: Direction;
+  bottom: Direction;
+
+  [key: string]: Direction;
+}
+
+const directions: Directions = {
+  right: { rowIncrement: 0, colIncrement: 1 },
+  left: { rowIncrement: 0, colIncrement: -1 },
+  top: { rowIncrement: -1, colIncrement: 0 },
+  bottom: { rowIncrement: 1, colIncrement: 0 },
+};
 
 export class Grid {
   public cellGrid: Cell[][];
@@ -46,8 +55,6 @@ export class Grid {
       for (let col = 0; col < cols - 1; col++) {
         const cell = this.cellGrid[row][col];
         this.boxGrid[row][col] = new Box(
-          row,
-          col,
           cell.right!,
           this.cellGrid[row][col + 1].bottom!,
           this.cellGrid[row + 1][col + 1].left!,
@@ -105,27 +112,16 @@ export class Grid {
     this.unSelectCell();
     this.unHighlightAllCells();
 
-    if (
-      cell.right?.drawn === true &&
-      cell.left?.drawn === true &&
-      cell.top?.drawn === true &&
-      cell.bottom?.drawn === true
-    ) {
-      return;
-    }
+    const keyDirections = Object.keys(directions);
+    if (keyDirections.every((direction) => cell[direction]?.drawn === true)) return;
 
-    if (cell.right?.drawn === false) {
-      this.cellGrid[row][col + 1].highlighted = true;
-    }
-    if (cell.left?.drawn === false) {
-      this.cellGrid[row][col - 1].highlighted = true;
-    }
-    if (cell.top?.drawn === false) {
-      this.cellGrid[row - 1][col].highlighted = true;
-    }
-    if (cell.bottom?.drawn === false) {
-      this.cellGrid[row + 1][col].highlighted = true;
-    }
+    keyDirections.forEach((direction) => {
+      if (cell[direction]?.drawn === false) {
+        this.cellGrid[row + directions[direction].rowIncrement][
+          col + directions[direction].colIncrement
+        ].highlighted = true;
+      }
+    });
     cell.selected = true;
   }
 
@@ -202,28 +198,13 @@ class Line {
 
 export class Box {
   public owner: undefined | "red" | "blue";
-  public topLine: Line;
-  public bottomLine: Line;
-  public leftLine: Line;
-  public rightLine: Line;
-  public row: number;
-  public col: number;
 
   constructor(
-    row: number,
-    col: number,
-    rightLine: Line,
-    leftLine: Line,
-    topLine: Line,
-    bottomLine: Line,
-  ) {
-    this.topLine = topLine;
-    this.bottomLine = bottomLine;
-    this.leftLine = leftLine;
-    this.rightLine = rightLine;
-    this.row = row;
-    this.col = col;
-  }
+    public rightLine: Line,
+    public leftLine: Line,
+    public topLine: Line,
+    public bottomLine: Line,
+  ) {}
 
   public isCompleted() {
     if (this.rightLine.drawn && this.leftLine.drawn && this.topLine.drawn && this.bottomLine.drawn)
