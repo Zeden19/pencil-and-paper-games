@@ -38,13 +38,6 @@ function HangManBoard() {
 
   return (
     <div>
-      {incorrectGuesses >= 6 && (
-        <div className={"text-danger"}>
-          You loose. Word was: <b>{word}</b>
-        </div>
-      )}
-      {win && wordPuzzle.length !== 0 && <div className={"text-success"}>You Win!</div>}
-
       <div className={"d-flex text-center align-items-center justify-content-center"}>
         <svg width={"11rem"} height={"15rem"} className={styles.figureContainer}>
           {/*Scaffolding*/}
