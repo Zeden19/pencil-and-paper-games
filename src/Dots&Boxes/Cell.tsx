@@ -46,8 +46,6 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
 
     if (cell.highlighted) {
       const boxes = grid.setLines(cell)!.boxes;
-      console.log(boxes);
-
       let boxCompleted = false;
       if (setScoreGridTurn(boxes[0])) boxCompleted = true;
       if (boxes[1] && setScoreGridTurn(boxes[1])) boxCompleted = true;

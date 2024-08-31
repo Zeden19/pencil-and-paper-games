@@ -17,9 +17,10 @@ interface DotsBoxesStore {
   setWinner: (winner: string) => void;
 }
 
+const grid = new Grid(5,6);
 
 const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
-  grid: new Grid(5, 6),
+  grid: grid,
   scores: { red: 0, blue: 0 },
   vsCpu: true,
   turn: "red",
@@ -29,9 +30,8 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
   startGame: () =>
     setState((state) => ({
       playing: !state.playing,
-      grid: new Grid(5, 6),
+      grid: grid.reset(),
       winner: "",
-      lineDrawState: { startRow: NaN, startCol: NaN, canDrawLine: false },
       scores: { red: 0, blue: 0 },
     })),
   setGrid: (newGrid: Grid) => setState(() => ({grid: newGrid})),
@@ -39,9 +39,8 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
     setState((state) => ({ scores: { ...state.scores, [turn]: state.scores[turn] += 1 } })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
   setTurn: (turn: "red" | "blue") =>
-    setState((state) => ({
+    setState(() => ({
       turn: turn,
-      lineDrawState: { startRow: NaN, startCol: NaN, canDrawLine: false },
     })),
   setWinner: (winner) => setState(() => ({ winner: winner, playing: false })),
 }));

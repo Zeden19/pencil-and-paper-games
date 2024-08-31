@@ -1,5 +1,3 @@
-//todo add way to look through all directions without all if statements
-
 interface Direction {
   rowIncrement: number;
   colIncrement: number;
@@ -62,7 +60,6 @@ export class Grid {
     }
   }
 
-  // design flaw: the lefts and bottoms aren't "referenced" by the rights and lefts, thus we miss some things
   private initializeBoxes(rows: number, cols: number) {
     for (let row = 0; row < rows - 1; row++) {
       for (let col = 0; col < cols - 1; col++) {
@@ -105,11 +102,11 @@ export class Grid {
   }
 
   private unHighlightAllCells() {
-    this.cellGrid.flat().map((row) => (row.highlighted = false));
+    this.cellGrid.flat().map((cell) => (cell.highlighted = false));
   }
 
   private unSelectCell() {
-    this.cellGrid.flat().map((row) => (row.selected = false));
+    this.cellGrid.flat().map((cell) => (cell.selected = false));
   }
 
   public setCellsSelectedAndHighlighted(row: number, col: number) {
@@ -117,7 +114,7 @@ export class Grid {
     this.unSelectCell();
     this.unHighlightAllCells();
 
-    if (keyDirections.every((direction) => cell[direction]?.drawn === true)) return;
+    if (keyDirections.every((direction) => cell[direction]?.drawn === true || !cell[direction])) return;
 
     keyDirections.forEach((direction) => {
       if (cell[direction]?.drawn === false) {
@@ -145,6 +142,19 @@ export class Grid {
     this.unHighlightAllCells();
     this.unSelectCell();
     return lineDrawn;
+  }
+
+  public reset() {
+    this.cellGrid.flat().map((cell) => {
+      cell.highlighted = false;
+      cell.selected = false;
+      keyDirections.forEach((direction) => {
+        if (cell[direction]) cell[direction].drawn = false;
+      });
+    });
+    this.boxGrid.flat().map((box) => (box.owner = undefined));
+
+    return this;
   }
 }
 
