@@ -20,6 +20,7 @@ const directions: Directions = {
   top: { rowIncrement: -1, colIncrement: 0 },
   bottom: { rowIncrement: 1, colIncrement: 0 },
 };
+const keyDirections: ["right", "left", "top", "bottom"] = ["right", "left", "top", "bottom"];
 
 function oppositeDirection(direction: string) {
   switch (direction) {
@@ -116,8 +117,6 @@ export class Grid {
     this.unSelectCell();
     this.unHighlightAllCells();
 
-    //todo find a way to fix these errors
-    const keyDirections = Object.keys(directions);
     if (keyDirections.every((direction) => cell[direction]?.drawn === true)) return;
 
     keyDirections.forEach((direction) => {
@@ -132,9 +131,9 @@ export class Grid {
 
   public setLines(highLightedCell: Cell) {
     const selectedCell = this.cellGrid.flat().find((cell) => cell.selected);
-    let lineDrawn;
+    let lineDrawn: Line | undefined;
 
-    Object.keys(directions).forEach((direction) => {
+    keyDirections.forEach((direction) => {
       if (selectedCell![direction]?.goingTo === highLightedCell) {
         selectedCell![direction].drawn = true;
         if (highLightedCell[oppositeDirection(direction)])
@@ -142,7 +141,7 @@ export class Grid {
         lineDrawn = selectedCell![direction];
       }
     });
-    
+
     this.unHighlightAllCells();
     this.unSelectCell();
     return lineDrawn;
