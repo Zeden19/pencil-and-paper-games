@@ -1,4 +1,4 @@
-import emptyChip from "../assets/emptyChip.png";
+import emptyChip from "../../assets/emptyChip.png";
 
 const emptyGrid = [
   [

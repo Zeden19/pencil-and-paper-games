@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import TicTacToePage from "../TicTacToe/TicTacToePage.tsx";
-import DotsAndBoxesPage from "../Dots&Boxes/DotsAndBoxesPage.tsx";
-import HangmanPage from "../HangMan/HangmanPage.tsx";
-import Connect4Page from "../Connect4/Connect4Page.tsx";
-import HomePage from "./HomePage.tsx";
-import AboutPage from "./AboutPage.tsx";
-import ContactPage from "./ContactPage.tsx";
+import TicTacToePage from "../games/TicTacToe/TicTacToePage.tsx";
+import DotsAndBoxesPage from "../games/Dots&Boxes/DotsAndBoxesPage.tsx";
+import HangmanPage from "../games/HangMan/HangmanPage.tsx";
+import Connect4Page from "../games/Connect4/Connect4Page.tsx";
+import HomePage from "../HomePage.tsx";
+import AboutPage from "../About/AboutPage.tsx";
+import ContactPage from "../Contact/ContactPage.tsx";
 import Layout from "./Layout.tsx";
 
 const router = createBrowserRouter([

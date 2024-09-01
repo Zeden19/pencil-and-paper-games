@@ -1,8 +1,8 @@
 import useConnect4Store from "./stores.ts";
 import styles from "./styles.module.css";
 import { useState } from "react";
-import yellowChip from "../assets/yellowChip.png";
-import redChip from "../assets/redChip.png";
+import yellowChip from "../../assets/yellowChip.png";
+import redChip from "../../assets/redChip.png";
 
 //todo: add chip at top selection
 function Connect4Grid() {

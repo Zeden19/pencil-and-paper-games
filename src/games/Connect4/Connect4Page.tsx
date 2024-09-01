@@ -1,7 +1,7 @@
 import GamePages from "../GamePages.tsx";
 import Connect4Grid from "./Connect4Grid.tsx";
 import useConnect4Store from "./stores.ts";
-import capitalize from "../services/capitalize.ts";
+import capitalize from "../../services/capitalize.ts";
 
 function Connect4Page() {
   const { playing, startGame, turn, winner } = useConnect4Store();
