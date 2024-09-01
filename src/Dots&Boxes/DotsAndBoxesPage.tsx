@@ -1,7 +1,7 @@
 import GamePages from "../GamePages.tsx";
 import useDotsAndBoxes from "./stores.ts";
 import DotsAndBoxesGrid from "./DotsAndBoxesGrid.tsx";
-import capitalize from "../helpers/capitalize.ts";
+import capitalize from "../services/capitalize.ts";
 
 function DotsAndBoxesPage() {
   const { playing, startGame, turn, scores, winner } = useDotsAndBoxes();
