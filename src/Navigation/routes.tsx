@@ -18,19 +18,19 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "tictactoe",
+        path: "/games/tictactoe",
         element: <TicTacToePage />,
       },
       {
-        path: "dotsandboxes",
+        path: "/games/dotsandboxes",
         element: <DotsAndBoxesPage />,
       },
       {
-        path: "hangman",
+        path: "/games/hangman",
         element: <HangmanPage />,
       },
       {
-        path: "connect4",
+        path: "/games/connect4",
         element: <Connect4Page />,
       },
       {

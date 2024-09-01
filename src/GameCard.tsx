@@ -19,7 +19,7 @@ function GameCard({ label, description, img, url }: Props) {
       <div className={"card-body d-flex flex-column"}>
         <h5 className={"card-title text-body"}>{label}</h5>
         <p className={"card-text"}>{description}</p>
-        <Link className={"btn btn-primary mt-auto"} role={"button"} to={url}>
+        <Link className={"btn btn-primary mt-auto stretched-link"} role={"button"} to={url}>
           Play now!
         </Link>
       </div>

@@ -1,4 +1,3 @@
-//todo: Split this component up & fix file structure
 import { GiTicTacToe } from "react-icons/gi";
 import "react-toastify/dist/ReactToastify.css";
 import { NavLink } from "react-router-dom";
