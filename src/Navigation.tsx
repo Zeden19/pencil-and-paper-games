@@ -1,10 +1,39 @@
+//todo: fix weird double button click needed to sign in and out
+// add notifications for successful sign out
+// add users own pfp for dropdown menu trigger
 import { GiTicTacToe } from "react-icons/gi";
 import { MdAccountCircle, MdDarkMode, MdGridOff, MdLightMode } from "react-icons/md";
-import { PiDotsNineBold, PiPersonSimpleBold, PiSignInBold } from "react-icons/pi";
+import { PiDotsNineBold, PiPersonSimpleBold, PiSignInBold, PiSignOutBold } from "react-icons/pi";
 import { CgDarkMode } from "react-icons/cg";
 import { NavLink } from "react-router-dom";
+import supabase from "./services/supabase-client.ts";
+import { useEffect, useState } from "react";
+import { User } from "@supabase/supabase-js";
 
 function Navigation() {
+  const [session, setSession] = useState<User | undefined>(undefined);
+  useEffect(() => {
+    getSession();
+  }, []);
+
+  async function getSession() {
+    const { data: user, error } = await supabase.auth.getSession();
+    setSession(user.session?.user);
+  }
+
+  async function signIn() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `http://localhost:3000/auth/callback`,
+      },
+    });
+  }
+
+  async function signOut() {
+    const { error } = await supabase.auth.signOut();
+    if (!error) setSession(undefined);
+  }
   const iconRightSize = "2rem";
   return (
     <nav className="navbar navbar-expand-sm bg-body-secondary">
@@ -89,10 +118,17 @@ function Navigation() {
                   size={iconRightSize}
                 />
                 <ul className={"dropdown-menu dropdown-menu-start dropdown-menu-md-end"}>
-                  <li className={"dropdown-item"}>
-                    <PiSignInBold className={"me-1"} />
-                    <a>Sign up</a>
-                  </li>
+                  {session ? (
+                    <li role={"button"} className={"dropdown-item"}>
+                      <PiSignOutBold className={"me-1"} />
+                      <a onClick={signOut}>Sign out</a>
+                    </li>
+                  ) : (
+                    <li role={"button"} className={"dropdown-item"}>
+                      <PiSignInBold className={"me-1"} />
+                      <a onClick={signIn}>Sign In</a>
+                    </li>
+                  )}
                 </ul>
               </div>
             </li>
