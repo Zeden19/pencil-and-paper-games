@@ -1,9 +1,9 @@
-//todo: fix weird double button click needed to sign in and out
-// add notifications for successful sign out
-// add users own pfp for dropdown menu trigger
+//todo: Split this component up & fix file structure
 import { GiTicTacToe } from "react-icons/gi";
 import { MdAccountCircle, MdDarkMode, MdGridOff, MdLightMode } from "react-icons/md";
 import { PiDotsNineBold, PiPersonSimpleBold, PiSignInBold, PiSignOutBold } from "react-icons/pi";
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { CgDarkMode } from "react-icons/cg";
 import { NavLink } from "react-router-dom";
 import supabase from "./services/supabase-client.ts";
@@ -11,14 +11,29 @@ import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 
 function Navigation() {
-  const [session, setSession] = useState<User | undefined>(undefined);
+  const [user, setUser] = useState<User | undefined>(undefined);
   useEffect(() => {
     getSession();
   }, []);
 
+  const notify = () =>
+    toast("Successfully Logged out.", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+      type: "success",
+    });
+
   async function getSession() {
     const { data: user, error } = await supabase.auth.getSession();
-    setSession(user.session?.user);
+    console.log(user);
+    setUser(user.session?.user);
   }
 
   async function signIn() {
@@ -32,9 +47,13 @@ function Navigation() {
 
   async function signOut() {
     const { error } = await supabase.auth.signOut();
-    if (!error) setSession(undefined);
+    if (error) console.log(error);
+
+    setUser(undefined);
+    notify();
   }
-  const iconRightSize = "2rem";
+
+  const iconRightSize = "2.5rem";
   return (
     <nav className="navbar navbar-expand-sm bg-body-secondary">
       <div className="container-fluid">
@@ -109,24 +128,39 @@ function Navigation() {
           </ul>
           <div className={"d-flex gap-4"}>
             <li className="d-flex">
-              <div className={"dropdown  nav-item"}>
-                <MdAccountCircle
-                  className={"nav-link dropdown-toggle"}
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  role={"button"}
-                  size={iconRightSize}
-                />
+              <div
+                style={{
+                  width: iconRightSize,
+                }}
+                className={"dropdown nav-item"}
+              >
+                {user ? (
+                  <img
+                    src={user.user_metadata.avatar_url}
+                    className={"nav-link dropdown-toggle rounded-circle border border-black w-100"}
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    role={"button"}
+                  />
+                ) : (
+                  <MdAccountCircle
+                    className={"nav-link dropdown-toggle"}
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    role={"button"}
+                    size={iconRightSize}
+                  />
+                )}
                 <ul className={"dropdown-menu dropdown-menu-start dropdown-menu-md-end"}>
-                  {session ? (
-                    <li role={"button"} className={"dropdown-item"}>
+                  {user ? (
+                    <li onClick={signOut} role={"button"} className={"dropdown-item"}>
                       <PiSignOutBold className={"me-1"} />
-                      <a onClick={signOut}>Sign out</a>
+                      Sign Out
                     </li>
                   ) : (
-                    <li role={"button"} className={"dropdown-item"}>
+                    <li onClick={signIn} role={"button"} className={"dropdown-item"}>
                       <PiSignInBold className={"me-1"} />
-                      <a onClick={signIn}>Sign In</a>
+                      Sign In
                     </li>
                   )}
                 </ul>
@@ -160,6 +194,19 @@ function Navigation() {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Bounce}
+      />
     </nav>
   );
 }
