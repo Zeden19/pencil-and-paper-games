@@ -9,20 +9,46 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      countries: {
+      profiles: {
         Row: {
-          id: number
-          name: string
+          connect4gamesplayed: number | null
+          description: string | null
+          dotsboxesgamesplayed: number | null
+          first_name: string | null
+          hangmangamesplayed: number | null
+          id: string
+          last_name: string | null
+          tictactoegamesplayed: number | null
         }
         Insert: {
-          id?: never
-          name: string
+          connect4gamesplayed?: number | null
+          description?: string | null
+          dotsboxesgamesplayed?: number | null
+          first_name?: string | null
+          hangmangamesplayed?: number | null
+          id: string
+          last_name?: string | null
+          tictactoegamesplayed?: number | null
         }
         Update: {
-          id?: never
-          name?: string
+          connect4gamesplayed?: number | null
+          description?: string | null
+          dotsboxesgamesplayed?: number | null
+          first_name?: string | null
+          hangmangamesplayed?: number | null
+          id?: string
+          last_name?: string | null
+          tictactoegamesplayed?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

@@ -1,13 +1,38 @@
 import useTicTacToeStore from "./store.ts";
+import supabase from "../../services/supabase-client.ts";
+import { useEffect, useState } from "react";
+import { User } from "@supabase/supabase-js";
 
 function TicTacToeGrid() {
+  //todo: make user a global store so we don't have to do this every god damn time
+  // or make this a hook??????
+  const [user, setUser] = useState<User | undefined>();
+  useEffect(() => {
+    getSession();
+  }, []);
+
+  async function getSession() {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    setUser(session?.user);
+  }
+
   const { board, handleTileClick, playing, turn, setTurn, setWinner } = useTicTacToeStore();
 
   const isWinner = (indexDown: number, indexRight: number) => {
     const newBoard = useTicTacToeStore.getState().board; // getting the new state
-    const markWinner = (indices: [number[], number[], number[]]) => {
+    const markWinner = async (indices: [number[], number[], number[]]) => {
       indices.forEach((i) => (newBoard[i[0]][i[1]] = "w" + newBoard[i[0]][i[1]]));
       setWinner(turn, newBoard);
+
+      //todo: move this to backend
+      const { error } = await supabase
+        .from("profiles")
+        .update({ tictactoegamesplayed: 1 })
+        .eq("id", user!.id);
+      
+      console.log(error);
       return true;
     };
 
