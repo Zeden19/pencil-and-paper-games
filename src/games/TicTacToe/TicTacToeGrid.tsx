@@ -1,38 +1,18 @@
 import useTicTacToeStore from "./store.ts";
-import supabase from "../../services/supabase-client.ts";
-import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
+import useUser from "../../hooks/useUser.ts";
+import updateUserGamePlayed from "../../hooks/updateUserGamePlayed.ts";
 
 function TicTacToeGrid() {
-  //todo: make user a global store so we don't have to do this every god damn time
-  // or make this a hook??????
-  const [user, setUser] = useState<User | undefined>();
-  useEffect(() => {
-    getSession();
-  }, []);
-
-  async function getSession() {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    setUser(session?.user);
-  }
+  const { user } = useUser();
 
   const { board, handleTileClick, playing, turn, setTurn, setWinner } = useTicTacToeStore();
 
-  const isWinner = (indexDown: number, indexRight: number) => {
+  const isWinner = async (indexDown: number, indexRight: number) => {
     const newBoard = useTicTacToeStore.getState().board; // getting the new state
+
     const markWinner = async (indices: [number[], number[], number[]]) => {
       indices.forEach((i) => (newBoard[i[0]][i[1]] = "w" + newBoard[i[0]][i[1]]));
       setWinner(turn, newBoard);
-
-      //todo: move this to backend
-      const { error } = await supabase
-        .from("profiles")
-        .update({ tictactoegamesplayed: 1 })
-        .eq("id", user!.id);
-      
-      console.log(error);
       return true;
     };
 
@@ -84,6 +64,7 @@ function TicTacToeGrid() {
 
     // Check for a draw
     if (!newBoard.flat().includes("")) {
+      await updateUserGamePlayed(user, "tictactoegamesplayed");
       setWinner("Nobody", newBoard);
       return true;
     }
@@ -112,11 +93,12 @@ function TicTacToeGrid() {
     return ""; // Default case, no additional border styles
   };
 
-  function handleClick(indexDown: number, indexRight: number) {
+  async function handleClick(indexDown: number, indexRight: number) {
     if (!playing) return;
     if (board[indexDown][indexRight] !== "") return;
     handleTileClick(indexDown, indexRight);
-    isWinner(indexDown, indexRight);
+    if (await isWinner(indexDown, indexRight))
+      await updateUserGamePlayed(user, "tictactoegamesplayed");
     setTurn();
   }
 

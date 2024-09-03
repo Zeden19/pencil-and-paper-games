@@ -1,24 +1,15 @@
 import { MdAccountCircle } from "react-icons/md";
 import { PiSignInBold, PiSignOutBold } from "react-icons/pi";
-import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import supabase from "../services/supabase-client.ts";
+import useUser from "../hooks/useUser.ts";
 
 interface Props {
   iconRightSize: string;
 }
 
 function AuthControl({ iconRightSize }: Props) {
-  const [user, setUser] = useState<User | undefined>(undefined);
-  useEffect(() => {
-    getSession();
-  }, []);
-
-  async function getSession() {
-    const { data: user, error } = await supabase.auth.getSession();
-    setUser(user.session?.user);
-  }
+  const { user, setUser } = useUser();
 
   async function signIn() {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -33,7 +24,7 @@ function AuthControl({ iconRightSize }: Props) {
     const { error } = await supabase.auth.signOut();
     if (error) console.log(error);
 
-    setUser(undefined);
+    setUser(null);
     notify();
   }
 
