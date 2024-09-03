@@ -3,6 +3,7 @@ import styles from "./styles.module.css";
 import classNames from "classnames/bind";
 import { Box, Cell as DotCell } from "./Grid.ts";
 import Lines from "./Lines.tsx";
+import useWindowDimensions from "../../hooks/useWindowDimensions.ts";
 
 interface Props {
   rowIndex: number;
@@ -21,6 +22,8 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
     setScore,
     scores: { red, blue },
   } = useDotsAndBoxes();
+  
+  const {width} = useWindowDimensions();
 
   function setScoreGridTurn(box: Box) {
     if (box.isCompleted()) {
@@ -37,7 +40,7 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
 
   const circleX = 50;
   const circleY = 50;
-  const circleRadius = 10;
+  const circleRadius = width ? width >= 576 ? 8 : 10 : 10;
 
   const cx = classNames.bind(styles);
 
@@ -61,21 +64,32 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
   }
 
   return (
-    <svg viewBox="0 0 100 100" width={"100%"} height={"100%"} preserveAspectRatio={"none"}>
-      <circle
-        onClick={handleClick}
-        className={cx({
-          circle: true,
-          cellHighlighted: cell.highlighted,
-          cellClicked: cell.selected,
-        })}
-        role={"button"}
-        cx={circleX}
-        cy={circleY}
-        r={circleRadius}
-      />
-      <Lines xCord={circleX} yCord={circleY} radius={circleRadius} cell={cell} />
-    </svg>
+    <div
+      className={cx({
+        "col p-0": true,
+        [styles.grid]: true,
+      })}
+      key={rowIndex + " " + colIndex}>
+      <svg
+        viewBox="0 0 100 100"
+        width={"100%"}
+        height={"100%"}
+        preserveAspectRatio={"xMidYMid slice"}>
+        <circle
+          onClick={handleClick}
+          className={cx({
+            circle: true,
+            cellHighlighted: cell.highlighted,
+            cellClicked: cell.selected,
+          })}
+          role={"button"}
+          cx={circleX}
+          cy={circleY}
+          r={circleRadius}
+        />
+        <Lines xCord={circleX} yCord={circleY} radius={circleRadius} cell={cell} />
+      </svg>
+    </div>
   );
 }
 

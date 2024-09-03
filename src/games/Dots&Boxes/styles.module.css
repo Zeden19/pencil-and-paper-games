@@ -3,13 +3,6 @@
   stroke: #0F1C3F;
 }
 
-/*.heightBig {*/
-/*  height: 170px !important;*/
-/*}*/
-
-/*.heightSmall {*/
-/*  height: 170px !important;*/
-/*}*/
 
 .cellClicked {
   fill: red;
@@ -20,5 +13,15 @@
 }
 
 .line {
-  stroke-width: 7px;
+  stroke-width: 5px;
+}
+
+.grid {
+  height: 100px;
+}
+
+@media (width <= 576px) {
+  .grid {
+    height: 55px;
+  }
 }
