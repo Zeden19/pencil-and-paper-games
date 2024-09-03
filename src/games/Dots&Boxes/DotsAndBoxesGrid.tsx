@@ -12,7 +12,7 @@ function DotsAndBoxesGrid() {
         {grid.cellGrid.map((row, rowIndex) =>
           row.map((cell, colIndex) => (
             <div
-              style={{ height: "110px" }}
+              style={{ height: "100px" }}
               className={cx({
                 "col p-0": true,
               })}

@@ -18,10 +18,14 @@ function Connect4Page() {
         If a player has 4 in a row <b>horizontally</b>, <b>diagonally</b> or <b>vertically</b> they win! If the entire board if filled up
         the game ends in a draw.</p>}
     >
-      {playing && <div className={"mb-2"}>{capitalize(turn)} Turn</div>}
-      {winner && (
-        <div className={"mb-2"}>{capitalize(winner)} Wins!</div>
-      )}
+      
+      <p>
+        {playing
+          ? capitalize(turn) + " Turn"
+          : winner
+            ? capitalize(winner) + " Wins!"
+            : "Click Start to Play"}
+      </p>
       <Connect4Grid />
     </GamePages>
   );

@@ -3,13 +3,11 @@ import styles from "./styles.module.css";
 import { useState } from "react";
 import yellowChip from "../../assets/yellowChip.png";
 import redChip from "../../assets/redChip.png";
-import useUser from "../../hooks/useUser.ts";
 
 //todo: add chip at top selection
 function Connect4Grid() {
   const [colHovered, setColHovered] = useState(NaN);
   const { grid, setGrid, turn, setTurn, playing, setWinner } = useConnect4Store();
-  const {user} = useUser();
 
   function getFirstChipInRow(
     turn: string,
@@ -99,7 +97,7 @@ function Connect4Grid() {
   }
 
   return (
-    <div style={{ maxWidth: "800px" }} className={"container text-center bg-primary rounded g-4"}>
+    <div style={{ maxWidth: "725px"}} className={"container text-center bg-primary rounded g-4"}>
       <div className={"row " + styles.rowCols7}>
         {grid.map((down, downIndex) =>
           down.map((tile, rightIndex) => (

@@ -17,14 +17,17 @@ function DotsAndBoxesPage() {
             During a players turn, they draw one line horizontally or vertically from one dot to
             another. If a player completes a box on their turn, they get a point <b>and</b> they get
             another turn. {"\n\n"}
-            
             Once all possible lines are drawn, the player with the most points wins!
           </p>
-        }
-      >
-        {winner && <div>{capitalize(winner)} Wins!</div>}
-        {<div>{"Red: " + scores.red + " Blue: " + scores.blue}</div>}
-        {<div>{playing && capitalize(turn) + " Turn"}</div>}
+        }>
+        <div>{"Red: " + scores.red + " Blue: " + scores.blue}</div>
+        <p className={'mb-0'}>
+          {playing
+            ? capitalize(turn) + " Turn"
+            : winner
+              ? capitalize(winner) + " Wins!"
+              : "Click Start to Play"}
+        </p>
         <DotsAndBoxesGrid />
       </GamePages>
     </>

@@ -46,12 +46,11 @@ function HangmanPage() {
         <button
           disabled={!playing || hint !== ""}
           onClick={getHint}
-          className={"btn btn-primary d-block my-2 px-4 m-auto"}
-        >
+          className={"btn btn-primary d-block my-2 px-4 m-auto"}>
           Hint
         </button>
-      }
-    >
+      }>
+      
       {hint && hint}
       <div className={"text-danger"}>
         {incorrectGuesses >= 6 && (

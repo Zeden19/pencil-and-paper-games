@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import styles from "../styles.module.css"
+import styles from "../styles.module.css";
 
 interface Props {
   title: string;
@@ -32,8 +32,7 @@ function GamePages({
         type={"button"}
         className={"btn btn-primary"}
         data-bs-toggle="modal"
-        data-bs-target={"#" + helpModalId}
-      >
+        data-bs-target={"#" + helpModalId}>
         Help
       </button>
 
@@ -45,8 +44,7 @@ function GamePages({
         id={helpModalId}
         tabIndex={parseInt("-1")}
         aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
@@ -57,14 +55,13 @@ function GamePages({
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+                aria-label="Close"></button>
             </div>
             <div style={{ whiteSpace: "pre-line" }} className="modal-body">
               {helpModalDescription}
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+              <button type="button" className="btn btn-primary" data-bs-dismiss="modal">
                 Close
               </button>
             </div>
