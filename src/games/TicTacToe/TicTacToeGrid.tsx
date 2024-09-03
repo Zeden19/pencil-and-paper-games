@@ -1,19 +1,14 @@
 import useTicTacToeStore from "./store.ts";
-import useUser from "../../hooks/useUser.ts";
-import updateUserGamePlayed from "../../hooks/updateUserGamePlayed.ts";
 
 function TicTacToeGrid() {
-  const { user } = useUser();
-
   const { board, handleTileClick, playing, turn, setTurn, setWinner } = useTicTacToeStore();
 
-  const isWinner = async (indexDown: number, indexRight: number) => {
+  const isWinner = (indexDown: number, indexRight: number) => {
     const newBoard = useTicTacToeStore.getState().board; // getting the new state
 
-    const markWinner = async (indices: [number[], number[], number[]]) => {
+    const markWinner = (indices: [number[], number[], number[]]) => {
       indices.forEach((i) => (newBoard[i[0]][i[1]] = "w" + newBoard[i[0]][i[1]]));
       setWinner(turn, newBoard);
-      return true;
     };
 
     // Check row
@@ -64,12 +59,8 @@ function TicTacToeGrid() {
 
     // Check for a draw
     if (!newBoard.flat().includes("")) {
-      await updateUserGamePlayed(user, "tictactoegamesplayed");
       setWinner("Nobody", newBoard);
-      return true;
     }
-
-    return false;
   };
 
   const getClassName = (indexDown: number, indexRight: number) => {
@@ -93,12 +84,11 @@ function TicTacToeGrid() {
     return ""; // Default case, no additional border styles
   };
 
-  async function handleClick(indexDown: number, indexRight: number) {
+  function handleClick(indexDown: number, indexRight: number) {
     if (!playing) return;
     if (board[indexDown][indexRight] !== "") return;
     handleTileClick(indexDown, indexRight);
-    if (await isWinner(indexDown, indexRight))
-      await updateUserGamePlayed(user, "tictactoegamesplayed");
+    isWinner(indexDown, indexRight);
     setTurn();
   }
 

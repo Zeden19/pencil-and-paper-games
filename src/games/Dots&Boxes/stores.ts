@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { Grid } from "./Grid.ts";
+import updateUserGamePlayed from "../../hooks/updateUserGamePlayed.ts";
+import supabase from "../../services/supabase-client.ts";
 
 interface DotsBoxesStore {
   grid: Grid;
@@ -17,8 +19,8 @@ interface DotsBoxesStore {
   setWinner: (winner: string) => void;
 }
 
+const {data: {user}} = await supabase.auth.getUser();
 const grid = new Grid(5,6);
-
 const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
   grid: grid,
   scores: { red: 0, blue: 0 },
@@ -34,15 +36,18 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
       winner: "",
       scores: { red: 0, blue: 0 },
     })),
-  setGrid: (newGrid: Grid) => setState(() => ({grid: newGrid})),
+  setGrid: (newGrid: Grid) => setState(() => ({ grid: newGrid })),
   setScore: (turn: "red" | "blue") =>
-    setState((state) => ({ scores: { ...state.scores, [turn]: state.scores[turn] += 1 } })),
+    setState((state) => ({ scores: { ...state.scores, [turn]: (state.scores[turn] += 1) } })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
   setTurn: (turn: "red" | "blue") =>
     setState(() => ({
       turn: turn,
     })),
-  setWinner: (winner) => setState(() => ({ winner: winner, playing: false })),
+  setWinner: async (winner) => {
+    setState(() => ({ winner: winner, playing: false }));
+    if (user) await updateUserGamePlayed(user, "dotsboxesgamesplayed")
+  },
 }));
 
 export default useDotsAndBoxes;

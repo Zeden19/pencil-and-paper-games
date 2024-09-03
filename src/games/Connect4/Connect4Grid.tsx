@@ -3,11 +3,13 @@ import styles from "./styles.module.css";
 import { useState } from "react";
 import yellowChip from "../../assets/yellowChip.png";
 import redChip from "../../assets/redChip.png";
+import useUser from "../../hooks/useUser.ts";
 
 //todo: add chip at top selection
 function Connect4Grid() {
   const [colHovered, setColHovered] = useState(NaN);
   const { grid, setGrid, turn, setTurn, playing, setWinner } = useConnect4Store();
+  const {user} = useUser();
 
   function getFirstChipInRow(
     turn: string,

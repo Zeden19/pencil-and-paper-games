@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import emptyGrid from "./emptyGrid.ts";
+import updateUserGamePlayed from "../../hooks/updateUserGamePlayed.ts";
+import supabase from "../../services/supabase-client.ts";
 interface Connect4Tile {
   turn: string;
   src: string;
@@ -20,6 +22,7 @@ interface Connect4Store {
   setWinner: (winner: string) => void;
 }
 
+const {data: {user}} = await supabase.auth.getUser();
 const useConnect4Store = create<Connect4Store>((setState) => ({
   grid: JSON.parse(JSON.stringify(emptyGrid)),
   vsCpu: true,
@@ -36,7 +39,10 @@ const useConnect4Store = create<Connect4Store>((setState) => ({
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
   setTurn: () => setState((state) => ({ turn: state.turn === "red" ? "yellow" : "red" })),
   setGrid: (newGrid: Connect4Tile[][]) => setState(() => ({ grid: newGrid })),
-  setWinner: (winner) => setState(() => ({ winner: winner, playing: false })),
+  setWinner: async (winner) => {
+    setState(() => ({ winner: winner, playing: false }));
+    if (user) await updateUserGamePlayed(user, "connect4gamesplayed")
+  },
 }));
 
 export default useConnect4Store;

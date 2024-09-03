@@ -8,15 +8,21 @@ function VirtualKeyboardGrid() {
 
   return (
     <div className={"container text-center"}>
-      <div className={"row row-cols-10 justify-content-center flex-nowrap"}>{letterKeys.slice(0, 10).map((key) => (
-        <VirtualKeys letterKey={key} key={key} />
-      ))}</div>
-      <div className={"row row-cols-9 justify-content-center"}>{letterKeys.slice(10, 19).map((key) => (
-        <VirtualKeys letterKey={key} key={key} />
-      ))}</div>
-      <div className={"row row-cols-7 justify-content-center"}>{letterKeys.slice(19).map((key) => (
-        <VirtualKeys letterKey={key} key={key} />
-      ))}</div>
+      <div className={"row row-cols-10 justify-content-center flex-nowrap"}>
+        {letterKeys.slice(0, 10).map((key) => (
+          <VirtualKeys letterKey={key} key={key} />
+        ))}
+      </div>
+      <div className={"row row-cols-9 justify-content-center"}>
+        {letterKeys.slice(10, 19).map((key) => (
+          <VirtualKeys letterKey={key} key={key} />
+        ))}
+      </div>
+      <div className={"row row-cols-7 justify-content-center"}>
+        {letterKeys.slice(19).map((key) => (
+          <VirtualKeys letterKey={key} key={key} />
+        ))}
+      </div>
     </div>
   );
 }

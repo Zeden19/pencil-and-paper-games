@@ -1,7 +1,14 @@
 import { User } from "@supabase/supabase-js";
 import supabase from "../services/supabase-client.ts";
 
-async function updateUserGamePlayed(user: User | null, game : "tictactoegamesplayed") {
+async function updateUserGamePlayed(
+  user: User | null,
+  game:
+    | "tictactoegamesplayed"
+    | "hangmangamesplayed"
+    | "connect4gamesplayed"
+    | "dotsboxesgamesplayed",
+) {
   if (user) {
     const { data } = await supabase.from("profiles").select().eq("id", user.id);
     if (!data) return;

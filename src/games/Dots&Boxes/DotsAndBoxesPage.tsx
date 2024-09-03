@@ -22,7 +22,7 @@ function DotsAndBoxesPage() {
           </p>
         }
       >
-        {winner && <div className={"mb-2"}>{capitalize(winner)} Wins!</div>}
+        {winner && <div>{capitalize(winner)} Wins!</div>}
         {<div>{"Red: " + scores.red + " Blue: " + scores.blue}</div>}
         {<div>{playing && capitalize(turn) + " Turn"}</div>}
         <DotsAndBoxesGrid />

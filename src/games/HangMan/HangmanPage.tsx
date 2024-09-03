@@ -54,7 +54,11 @@ function HangmanPage() {
     >
       {hint && hint}
       <div className={"text-danger"}>
-        {incorrectGuesses >= 6 && <div>You loose. Word was: <b>word</b></div>}
+        {incorrectGuesses >= 6 && (
+          <div>
+            You loose. Word was: <b>{word}</b>
+          </div>
+        )}
       </div>
       <div className={"text-success"}>{win && wordPuzzle.length !== 0 && "You Win!"}</div>
       <HangManBoard />

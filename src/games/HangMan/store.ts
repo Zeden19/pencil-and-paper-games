@@ -1,13 +1,15 @@
 import { create } from "zustand";
+import updateUserGamePlayed from "../../hooks/updateUserGamePlayed.ts";
+import supabase from "../../services/supabase-client.ts";
 
 interface Guess {
   letter: string;
-  correct: boolean
+  correct: boolean;
 }
 
 interface HangManStore {
   playing: boolean;
-  hint: string
+  hint: string;
   incorrectGuesses: number;
   guesses: Guess[];
   win: boolean;
@@ -22,6 +24,7 @@ interface HangManStore {
   startGame: (word: string) => void;
 }
 
+const {data: {user}} = await supabase.auth.getUser();
 const useHangManStore = create<HangManStore>((setState) => ({
   playing: false,
   hint: "",
@@ -32,7 +35,7 @@ const useHangManStore = create<HangManStore>((setState) => ({
   wordPuzzle: [],
 
   setGuesses: (guess) => setState((state) => ({ guesses: [...state.guesses, guess] })),
-  setHint: (hint) => setState(() => ({hint: hint})),
+  setHint: (hint) => setState(() => ({ hint: hint })),
   setIncorrectGuesses: (incorrectGuesses) =>
     setState(() => ({ incorrectGuesses: incorrectGuesses })),
   setWordPuzzle: (wordPuzzle) => setState(() => ({ wordPuzzle: wordPuzzle })),
@@ -44,9 +47,12 @@ const useHangManStore = create<HangManStore>((setState) => ({
       word: word,
       wordPuzzle: word.split("").map(() => "_"),
       incorrectGuesses: 0,
-      hint: ""
+      hint: "",
     })),
-  setWin: (win: boolean) => setState(() => ({ win: win, playing: false })),
+  setWin: async (win: boolean) => {
+    setState(() => ({ win: win, playing: false }));
+    if (user) await updateUserGamePlayed(user, "hangmangamesplayed");
+  },
 }));
 
 export default useHangManStore;

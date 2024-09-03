@@ -2,6 +2,7 @@ import useHangManStore from "./store.ts";
 import styles from "./styles.module.css";
 import React, { useEffect } from "react";
 import VirtualKeyboardGrid from "./VirtualKeyboardGrid.tsx";
+import useUser from "../../hooks/useUser.ts";
 
 function HangManBoard() {
   const {
@@ -12,13 +13,13 @@ function HangManBoard() {
     setWordPuzzle,
     playing,
     setWin,
-    win,
   } = useHangManStore();
+  const {user} = useUser();
 
   useEffect(() => {
     if (!wordPuzzle.includes("_")) setWin(true);
     else if (incorrectGuesses >= 6) setWin(false);
-  }, [wordPuzzle, setWin, incorrectGuesses]);
+  }, [wordPuzzle, setWin, incorrectGuesses, user]);
 
   function guessFullWord(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -30,7 +31,6 @@ function HangManBoard() {
 
     if (fullWordGuess === word) {
       setWordPuzzle(word.split(""));
-      setWin(true);
       return;
     }
     setIncorrectGuesses(incorrectGuesses + 1);
