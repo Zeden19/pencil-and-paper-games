@@ -1,0 +1,25 @@
+.leftContainer {
+    width: 18vw;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.nameDescription {
+    text-align: left;
+}
+
+.rightContainer {
+    width: 30%;
+    height: fit-content;
+}
+
+.gameCard {
+    transform: scale(100%);
+    transition: 0.2s ease-in;
+}
+
+.gameCard:hover {
+    transform: scale(102%);
+    animation: 0.5s ease-in;
+}
+

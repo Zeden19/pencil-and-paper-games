@@ -11,33 +11,33 @@ export type Database = {
     Tables: {
       profiles: {
         Row: {
+          avatar: string | null
           connect4gamesplayed: number | null
           description: string | null
           dotsboxesgamesplayed: number | null
-          first_name: string | null
+          full_name: string | null
           hangmangamesplayed: number | null
           id: string
-          last_name: string | null
           tictactoegamesplayed: number | null
         }
         Insert: {
+          avatar?: string | null
           connect4gamesplayed?: number | null
           description?: string | null
           dotsboxesgamesplayed?: number | null
-          first_name?: string | null
+          full_name?: string | null
           hangmangamesplayed?: number | null
           id: string
-          last_name?: string | null
           tictactoegamesplayed?: number | null
         }
         Update: {
+          avatar?: string | null
           connect4gamesplayed?: number | null
           description?: string | null
           dotsboxesgamesplayed?: number | null
-          first_name?: string | null
+          full_name?: string | null
           hangmangamesplayed?: number | null
           id?: string
-          last_name?: string | null
           tictactoegamesplayed?: number | null
         }
         Relationships: [
