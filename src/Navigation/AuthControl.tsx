@@ -3,6 +3,7 @@ import { PiSignInBold, PiSignOutBold } from "react-icons/pi";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import supabase from "../services/supabase-client.ts";
 import useUser from "../hooks/useUser.ts";
+import { Link } from "react-router-dom";
 
 interface Props {
   iconRightSize: string;
@@ -64,10 +65,18 @@ function AuthControl({ iconRightSize }: Props) {
         )}
         <ul className={"dropdown-menu dropdown-menu-start dropdown-menu-md-end"}>
           {user ? (
-            <li onClick={signOut} role={"button"} className={"dropdown-item"}>
-              <PiSignOutBold className={"me-1"} />
-              Sign Out
-            </li>
+            <>
+              <li onClick={signOut} role={"button"} className={"dropdown-item"}>
+                <PiSignOutBold className={"me-1"} />
+                Sign Out
+              </li>
+              <Link to={`/account/${user!.id}`} role={"button"} className={"dropdown-item"}>
+                <li>
+                  <MdAccountCircle className={"me-1"} />
+                  Profile
+                </li>
+              </Link>
+            </>
           ) : (
             <li onClick={signIn} role={"button"} className={"dropdown-item"}>
               <PiSignInBold className={"me-1"} />

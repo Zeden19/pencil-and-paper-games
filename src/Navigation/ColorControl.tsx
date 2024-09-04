@@ -1,5 +1,4 @@
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { CgDarkMode } from "react-icons/cg";
 
 export function ColorControl(props: { size: string }) {
   return (
@@ -19,10 +18,6 @@ export function ColorControl(props: { size: string }) {
           <li className={"dropdown-item"}>
             <MdDarkMode className={"me-1"} />
             Dark Mode
-          </li>
-          <li className={"dropdown-item"}>
-            <CgDarkMode className={"me-1"} />
-            Auto
           </li>
         </ul>
       </div>

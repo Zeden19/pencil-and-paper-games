@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router-dom";
 import TicTacToePage from "../games/TicTacToe/TicTacToePage.tsx";
 import DotsAndBoxesPage from "../games/Dots&Boxes/DotsAndBoxesPage.tsx";
 import HangmanPage from "../games/HangMan/HangmanPage.tsx";
@@ -7,6 +7,8 @@ import HomePage from "../HomePage.tsx";
 import AboutPage from "../About/AboutPage.tsx";
 import ContactPage from "../Contact/ContactPage.tsx";
 import Layout from "./Layout.tsx";
+import ProfilePage from "../Account/ProfilePage.tsx";
+import supabase from "../services/supabase-client.ts";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +16,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: "",
+        path: "/",
         element: <HomePage />,
       },
       {
@@ -34,12 +36,22 @@ const router = createBrowserRouter([
         element: <Connect4Page />,
       },
       {
-        path: "about",
+        path: "/about",
         element: <AboutPage />,
       },
       {
-        path: "contact",
+        path: "/contact",
         element: <ContactPage />,
+      },
+      {
+        path: "/account/:id",
+        loader: async ({ params }) => {
+          if (!params.id) return redirect("/");
+          const { data } = await supabase.from("profiles").select().eq("id", params.id);
+          if (!data) return redirect("/");
+          return data;
+        },
+        element: <ProfilePage />,
       },
     ],
   },
