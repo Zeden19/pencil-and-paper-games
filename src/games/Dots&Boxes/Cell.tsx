@@ -22,8 +22,8 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
     setScore,
     scores: { red, blue },
   } = useDotsAndBoxes();
-  
-  const {width} = useWindowDimensions();
+
+  const { width } = useWindowDimensions();
 
   function setScoreGridTurn(box: Box) {
     if (box.isCompleted()) {
@@ -40,7 +40,7 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
 
   const circleX = 50;
   const circleY = 50;
-  const circleRadius = width ? width >= 576 ? 8 : 10 : 10;
+  const circleRadius = width ? (width >= 576 ? 8 : 10) : 10;
 
   const cx = classNames.bind(styles);
 
@@ -62,14 +62,13 @@ function Cell({ rowIndex, colIndex, cell }: Props) {
     grid.setCellsSelectedAndHighlighted(rowIndex, colIndex);
     setGrid(grid);
   }
-
+  
   return (
     <div
       className={cx({
         "col p-0": true,
         [styles.grid]: true,
-      })}
-      key={rowIndex + " " + colIndex}>
+      })}>
       <svg
         viewBox="0 0 100 100"
         width={"100%"}

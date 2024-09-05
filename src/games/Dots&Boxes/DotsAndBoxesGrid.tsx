@@ -7,7 +7,14 @@ function DotsAndBoxesGrid() {
     <div style={{ maxWidth: "750px" }} className={"container text-center"}>
       <div className={"row row-cols-6"}>
         {grid.cellGrid.map((row, rowIndex) =>
-          row.map((cell, colIndex) => <Cell cell={cell} rowIndex={rowIndex} colIndex={colIndex} />),
+          row.map((cell, colIndex) => (
+            <Cell
+              key={rowIndex.toString() + " " + colIndex.toString()}
+              cell={cell}
+              rowIndex={rowIndex}
+              colIndex={colIndex}
+            />
+          )),
         )}
       </div>
     </div>

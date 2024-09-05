@@ -35,6 +35,7 @@ function oppositeDirection(direction: string) {
 export class Grid {
   public cellGrid: Cell[][];
   public boxGrid: Box[][];
+  public selectedCell: Cell | null = null;
 
   constructor(rows: number, cols: number) {
     this.cellGrid = Array.from({ length: rows }, () =>
@@ -102,11 +103,12 @@ export class Grid {
   }
 
   private unHighlightAllCells() {
-    this.cellGrid.flat().map((cell) => (cell.highlighted = false));
+    this.cellGrid.flat().map((cell) => cell.highlighted ? cell.highlighted = false : cell.highlighted);
   }
 
   private unSelectCell() {
-    this.cellGrid.flat().map((cell) => (cell.selected = false));
+    const selected = this.cellGrid.flat().find(cell => cell.selected);
+    if (selected) selected.selected = false;
   }
 
   public setCellsSelectedAndHighlighted(row: number, col: number) {
@@ -114,7 +116,8 @@ export class Grid {
     this.unSelectCell();
     this.unHighlightAllCells();
 
-    if (keyDirections.every((direction) => cell[direction]?.drawn === true || !cell[direction])) return;
+    if (keyDirections.every((direction) => cell[direction]?.drawn === true || !cell[direction]))
+      return;
 
     keyDirections.forEach((direction) => {
       if (cell[direction]?.drawn === false) {
@@ -123,6 +126,7 @@ export class Grid {
         ].highlighted = true;
       }
     });
+    
     cell.selected = true;
   }
 

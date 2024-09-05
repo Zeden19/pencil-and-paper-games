@@ -19,7 +19,7 @@ function HangmanPage() {
       .get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
       .then((res) => setHint(res.data[0].meanings[0].definitions[0].definition));
   }
-
+  
   return (
     <GamePages
       title={"Hangman"}

@@ -1,17 +1,14 @@
 import TicTacToeGrid from "./TicTacToeGrid.tsx";
 import useTicTacToeStore from "./store.ts";
 import GamePages from "../GamePages.tsx";
-import { useEffect } from "react";
 
 function TicTacToePage() {
   const { playing, startGame, setVsCpu, vsCpu, cleanUp, winner, turn } = useTicTacToeStore();
   
-  console.log("re-rendered");
-
   return (
     <GamePages
       title={"TicTacToe"}
-      startFunction={() => (startGame())}
+      startFunction={() => startGame()}
       cleanUpFunction={cleanUp}
       aboveHelpButtons={
         <button

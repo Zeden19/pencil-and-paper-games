@@ -22,9 +22,11 @@ function GamePages({
   aboveHelpButtons = "",
   cleanUpFunction,
 }: Props) {
+  
   useEffect(() => {
     cleanUpFunction();
   }, [cleanUpFunction]);
+  
   return (
     <div className={"container-fluid text-center bg-body-tertiary pb-3"}>
       <h2 className={`h1 pt-3 pb-2 ${styles.gameTitle}`}>{title}</h2>

@@ -15,6 +15,7 @@ function VirtualKeys({ letterKey }: Props) {
     wordPuzzle,
     setWordPuzzle,
     playing,
+    setWin
   } = useHangManStore();
   
   const key = letterKey.toLowerCase();
@@ -36,10 +37,11 @@ function VirtualKeys({ letterKey }: Props) {
     // check position of guessed letter
     let findLetterIndex = word.indexOf(key);
 
-    // no letter found; increment incorrectGuesses by 1
+    //incorrect guess; increment incorrectGuesses by 1
     if (findLetterIndex === -1) {
       setIncorrectGuesses(incorrectGuesses + 1);
       setGuesses({ letter: key, correct: false });
+      if (incorrectGuesses + 1 >= 6) setWin(false);
       return;
     }
     let newWordPuzzle = wordPuzzle;
@@ -53,6 +55,8 @@ function VirtualKeys({ letterKey }: Props) {
       findLetterIndex = word.indexOf(key, findLetterIndex + 1);
     }
     setGuesses({ letter: key, correct: true });
+    
+    if (!newWordPuzzle.includes("_")) setWin(true);
   }
 
   return (
