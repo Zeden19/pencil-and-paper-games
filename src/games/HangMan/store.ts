@@ -22,9 +22,12 @@ interface HangManStore {
   setWordPuzzle: (wordPuzzle: string[]) => void;
   setWin: (win: boolean) => void;
   startGame: (word: string) => void;
+  cleanUp: () => void;
 }
 
-const {data: {user}} = await supabase.auth.getUser();
+const {
+  data: { user },
+} = await supabase.auth.getUser();
 const useHangManStore = create<HangManStore>((setState) => ({
   playing: false,
   hint: "",
@@ -53,6 +56,16 @@ const useHangManStore = create<HangManStore>((setState) => ({
     setState(() => ({ win: win, playing: false }));
     if (user) await updateUserGamePlayed(user, "hangmangamesplayed");
   },
+  cleanUp: () =>
+    setState(() => ({
+      playing: false,
+      hint: "",
+      win: false,
+      guesses: [],
+      word: "",
+      wordPuzzle: [],
+      incorrectGuesses: 0,
+    })),
 }));
 
 export default useHangManStore;

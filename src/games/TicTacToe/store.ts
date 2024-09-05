@@ -10,11 +10,11 @@ interface TicTacToeStore {
   winner: string;
 
   handleTileClick: (indexRow: number, index: number) => void;
-  setPlaying: () => void;
+  startGame: () => void;
   setVsCpu: () => void;
   setTurn: () => void;
-  reset: () => void;
   setWinner: (winner: string, winningBoard? : string[][]) => void;
+  cleanUp: () => void;
 }
 
 const Board = [
@@ -26,7 +26,7 @@ const Board = [
 const {data: {user}} = await supabase.auth.getUser();
 const useTicTacToeStore = create<TicTacToeStore>((setState) => ({
   board: Board,
-  vsCpu: true,
+  vsCpu: false,
   turn: "x",
   playing: false,
   winner: "",
@@ -40,7 +40,7 @@ const useTicTacToeStore = create<TicTacToeStore>((setState) => ({
       ),
     }));
   },
-  setPlaying: () =>
+  startGame: () =>
     setState((state) => ({
       playing: !state.playing,
       board: Board,
@@ -48,16 +48,17 @@ const useTicTacToeStore = create<TicTacToeStore>((setState) => ({
     })),
   setVsCpu: () => setState((state) => ({ vsCpu: !state.vsCpu })),
   setTurn: () => setState((state) => ({ turn: state.turn === "x" ? "o" : "x" })),
-  reset: () =>
-    setState((state) => ({
-      playing: !state.playing,
-      board: Board,
-      winner: "",
-    })),
   setWinner: async (winner, winningBoard) => {
     setState((state) => ({ winner: winner, playing: !state.playing, board: winningBoard }));
     if (user) await updateUserGamePlayed(user, "tictactoegamesplayed")
   },
+  cleanUp: () => setState(() => ({
+    playing: false,
+    board: Board,
+    winner: "",
+    turn: "x",
+    vsCpu: false
+  }))
 }));
 
 export default useTicTacToeStore;

@@ -17,10 +17,13 @@ interface DotsBoxesStore {
   setVsCpu: () => void;
   setTurn: (turn: "red" | "blue") => void;
   setWinner: (winner: string) => void;
+  cleanUp: () => void;
 }
 
-const {data: {user}} = await supabase.auth.getUser();
-const grid = new Grid(5,6);
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+const grid = new Grid(5, 6);
 const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
   grid: grid,
   scores: { red: 0, blue: 0 },
@@ -46,8 +49,15 @@ const useDotsAndBoxes = create<DotsBoxesStore>((setState) => ({
     })),
   setWinner: async (winner) => {
     setState(() => ({ winner: winner, playing: false }));
-    if (user) await updateUserGamePlayed(user, "dotsboxesgamesplayed")
+    if (user) await updateUserGamePlayed(user, "dotsboxesgamesplayed");
   },
+  cleanUp: () =>
+    setState(() => ({
+      playing: false,
+      grid: grid.reset(),
+      winner: "",
+      scores: { red: 0, blue: 0 },
+    })),
 }));
 
 export default useDotsAndBoxes;

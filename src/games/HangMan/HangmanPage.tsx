@@ -3,12 +3,11 @@ import useHangManStore from "./store.ts";
 import { words } from "./words.ts";
 import GamePages from "../GamePages.tsx";
 import axios from "axios";
-import React from "react";
 
 function HangmanPage() {
-  const { playing, startGame, word, hint, setHint, incorrectGuesses, win, wordPuzzle } =
+  const { playing, startGame, word, hint, setHint, incorrectGuesses, win, wordPuzzle, cleanUp } =
     useHangManStore();
-
+  
   function getWord() {
     const randomIndex = Math.floor(Math.random() * words.length);
     return words[randomIndex];
@@ -25,6 +24,7 @@ function HangmanPage() {
     <GamePages
       title={"Hangman"}
       startFunction={() => startGame(getWord())}
+      cleanUpFunction={cleanUp}
       playing={playing}
       helpModalId={"hangman"}
       helpModalDescription={
@@ -50,7 +50,6 @@ function HangmanPage() {
           Hint
         </button>
       }>
-      
       {hint && hint}
       <div className={"text-danger"}>
         {incorrectGuesses >= 6 && (

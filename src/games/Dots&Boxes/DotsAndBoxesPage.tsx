@@ -4,12 +4,13 @@ import DotsAndBoxesGrid from "./DotsAndBoxesGrid.tsx";
 import capitalize from "../../services/capitalize.ts";
 
 function DotsAndBoxesPage() {
-  const { playing, startGame, turn, scores, winner } = useDotsAndBoxes();
+  const { playing, startGame, turn, scores, winner, cleanUp } = useDotsAndBoxes();
   return (
     <>
       <GamePages
         title={"Dots And Boxes"}
         startFunction={startGame}
+        cleanUpFunction={cleanUp}
         playing={playing}
         helpModalId={"dotsandboxes"}
         helpModalDescription={
