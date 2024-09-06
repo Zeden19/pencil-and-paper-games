@@ -27,6 +27,7 @@ function ProfilePage() {
 
   useEffect(() => {
     async function getUserData() {
+      console.log("getting data from supabase");
       const { data: profileData } = await supabase.from("profiles").select().eq("id", id!);
       if (profileData) {
         setUser({ ...profileData[0] });
