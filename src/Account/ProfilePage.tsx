@@ -4,6 +4,7 @@ import supabase from "../services/supabase-client.ts";
 import styles from "./styles.module.css";
 import { Tables } from "../../database.types.ts";
 import { gameFields } from "../Navigation/gameFields.tsx";
+import genericAvatar from "../assets/genericAvatar.jpg"
 
 function gameMap(
   user: Tables<"profiles">,
@@ -43,7 +44,7 @@ function ProfilePage() {
     <div className={`${styles.container}`}>
         <div className={`${styles.leftContainer}`}>
           <img
-            src={user?.avatar || ""}
+            src={user?.avatar || genericAvatar}
             className={"rounded-circle border border-black border-2 mb-4 w-100"}
             alt="avatar"
           />

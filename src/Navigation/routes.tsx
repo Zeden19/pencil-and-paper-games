@@ -9,6 +9,7 @@ import ContactPage from "../Contact/ContactPage.tsx";
 import Layout from "./Layout.tsx";
 import ProfilePage from "../Account/ProfilePage.tsx";
 import supabase from "../services/supabase-client.ts";
+import LeaderboardPage from "../Leaderboard/LeaderboardPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/games/connect4",
         element: <Connect4Page />,
+      },
+      {
+        path: "/leaderboard",
+        element: <LeaderboardPage />,
       },
       {
         path: "/about",
