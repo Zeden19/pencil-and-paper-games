@@ -1,3 +1,18 @@
 .title {
     font-family: 'kalam', sans-serif;
 }
+
+.orderedList {
+    counter-reset: section;
+}
+
+.listElement {
+    display: flex;
+}
+
+.listElement:before {
+    counter-increment: section;
+    content: counter(section) ".";
+    position: absolute;
+    margin-left: -25px;
+}

@@ -1,14 +1,21 @@
 import { GiTicTacToe } from "react-icons/gi";
 import { MdGridOff } from "react-icons/md";
 import { PiDotsNineBold, PiPersonSimpleBold } from "react-icons/pi";
-import tictactoe from "../assets/tictactoe.png"
-import connect4 from "../assets/connect4.png"
-import hangman from "../assets/hangman.png"
-import dotsandboxes from "../assets/dots&boxes.png"
+import tictactoe from "../assets/tictactoe.png";
+import connect4 from "../assets/connect4.png";
+import hangman from "../assets/hangman.png";
+import dotsandboxes from "../assets/dots&boxes.png";
+import { ReactNode } from "react";
 
 const className = "me-1";
 
-export const gameFields = [
+export const gameFields: {
+  label: "Tic Tac Toe" | "Hangman" | "Connect 4" | "Dots And Boxes";
+  description: string;
+  img: string;
+  url: string;
+  icon: ReactNode;
+}[] = [
   {
     label: "Tic Tac Toe",
     description: "The Definition of Simple.",

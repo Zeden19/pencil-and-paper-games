@@ -16,7 +16,7 @@ export function RouteButtons() {
       </li>
       <GamesDropdown />
       {navItems.map((item) => (
-        <li className="nav-item">
+        <li key={item.label} className="nav-item">
           <NavLink className="nav-link" to={item.to}>
             {item.label}
           </NavLink>
