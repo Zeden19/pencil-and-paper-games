@@ -1,6 +1,7 @@
 import { Tables } from "../../database.types.ts";
 import styles from "./styles.module.css";
 import { gamesPlayingMapping } from "../services/gamesPlayingMapping.ts";
+import { Link } from "react-router-dom";
 
 interface Props {
   game: "Tic Tac Toe" | "Hangman" | "Connect 4" | "Dots And Boxes";
@@ -25,7 +26,7 @@ function LeaderboardList({ game, profiles }: Props) {
                 alt={"avatar"}
                 src={profile.avatar ?? undefined}
               />
-              {profile.full_name}
+              <Link to={`/account/${profile.id}`} className={"link-secondary"}>{profile.full_name}</Link>
             </div>
             <div className={"me-2"}>{profile[gamesPlayed]}</div>
           </li>

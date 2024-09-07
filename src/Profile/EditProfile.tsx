@@ -2,6 +2,7 @@ import { Tables } from "../../database.types.ts";
 import React from "react";
 import supabase from "../services/supabase-client.ts";
 import toast from "../services/toast.ts";
+import useUser from "../hooks/useUser.ts";
 
 interface Props {
   profile: Tables<"profiles">;
@@ -10,12 +11,19 @@ interface Props {
 }
 
 function EditProfile({ profile, handleSaveClick, setNewProfile }: Props) {
+  const { user } = useUser();
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     const form = event.target as HTMLFormElement;
     event.preventDefault();
 
     const fullName = form.fullName.value;
     const description = form.description.value;
+    
+    // this is enforced on supabase
+    if (user?.id !== profile.id) {
+      toast("You aren't allowed to edit this page...", "error");
+      return;
+    }
     
     if (fullName.length > 50 || description.length > 500) {
       toast(
@@ -42,7 +50,7 @@ function EditProfile({ profile, handleSaveClick, setNewProfile }: Props) {
       .from("profiles")
       .update({ full_name: fullName, description: description })
       .eq("id", profile.id);
-
+    
     if (error) {
       setNewProfile(oldProfile);
       toast("Could Not Save Changes", "error");
@@ -82,10 +90,10 @@ function EditProfile({ profile, handleSaveClick, setNewProfile }: Props) {
         />
       </div>
 
-      <button type={"submit"} className={"btn btn-success me-4"}>
+      <button type={"submit"} className={"btn btn-success me-4 mb-4"}>
         Save
       </button>
-      <button onClick={handleSaveClick} className={"btn btn-secondary"}>Cancel</button>
+      <button onClick={handleSaveClick} className={"btn btn-secondary mb-4"}>Cancel</button>
     </form>
   );
 }
