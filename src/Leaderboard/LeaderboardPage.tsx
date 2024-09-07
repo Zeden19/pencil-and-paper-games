@@ -7,29 +7,31 @@ import supabase from "../services/supabase-client.ts";
 import { useEffect, useState } from "react";
 import { Tables } from "../../database.types.ts";
 
-
 function LeaderboardPage() {
   const [profiles, setProfiles] = useState<Tables<"profiles">[]>([]);
   useEffect(() => {
     async function getProfiles() {
-      const { data : profileData } = await supabase.from("profiles").select();
-      if (profileData) setProfiles(profileData)
+      const { data: profileData } = await supabase.from("profiles").select();
+      if (profileData) setProfiles(profileData);
     }
+
     getProfiles();
   }, []);
-  
+
   return (
     <div className={"container text-center"}>
       <h1 className={`text-center pt-4 pb-1 ${styles.title}`}>
         <FaTrophy /> Leaderboards <FaTrophy />
       </h1>
 
-      <div style={{ margin: "auto"}} className={"row row-cols-1 row-cols-md-4"}>
+      <div
+        style={{ margin: "auto" }}
+        className={"row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4"}>
         {gameFields.map((game) => (
           <div key={game.label} className={"col p-3"}>
             <div className={"bg-body-tertiary card"}>
               <div className={"card-body"}>
-                <h3 className={"card-title mb-4"}>
+                <h3 className={"card-title mb-4 fs-4"}>
                   {game.icon} {game.label}
                 </h3>
                 <LeaderboardList profiles={profiles} game={game.label} />

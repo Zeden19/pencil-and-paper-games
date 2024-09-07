@@ -4,15 +4,19 @@
 
 .orderedList {
     counter-reset: section;
+    padding-inline-start: 5px;
 }
 
 .listElement {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+
 }
 
 .listElement:before {
     counter-increment: section;
     content: counter(section) ".";
     position: absolute;
-    margin-left: -25px;
+    margin-left: -5px;
 }

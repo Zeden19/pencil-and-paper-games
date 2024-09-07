@@ -28,7 +28,7 @@ function LeaderboardList({ game, profiles }: Props) {
           //todo make these accordians
           <li
             key={profile.id}
-            className={`d-flex align-items-center justify-content-between py-2 border-bottom border-secondary-subtle ${styles.listElement}`}>
+            className={`py-2 border-bottom border-secondary-subtle ${styles.listElement}`}>
             <div>
               <img
                 style={{ height: "auto", width: "20%" }}
