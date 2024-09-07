@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import supabase from "../services/supabase-client.ts";
 import styles from "./styles.module.css";
 import { Tables } from "../../database.types.ts";
@@ -20,7 +20,6 @@ function ProfilePage() {
         setProfile({ ...profileData[0] });
       }
     }
-
     getUserData();
   }, [id]);
 

@@ -1,9 +1,10 @@
 import { MdAccountCircle } from "react-icons/md";
 import { PiSignInBold, PiSignOutBold } from "react-icons/pi";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, ToastContainer } from "react-toastify";
 import supabase from "../services/supabase-client.ts";
 import useUser from "../hooks/useUser.ts";
 import { Link } from "react-router-dom";
+import toast from "../services/toast.ts";
 
 interface Props {
   iconRightSize: string;
@@ -26,22 +27,9 @@ function AuthControl({ iconRightSize }: Props) {
     if (error) console.log(error);
 
     setUser(null);
-    notify();
+    toast("Successfully logged out", "success");
   }
 
-  const notify = () =>
-    toast("Successfully Logged out.", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-      type: "success",
-    });
   return (
     <li className="d-flex">
       <div style={{ width: iconRightSize }} className={"dropdown nav-item"}>

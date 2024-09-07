@@ -1,4 +1,5 @@
 import { Tables } from "../../database.types.ts";
+import useUser from "../hooks/useUser.ts";
 
 interface Props {
   profile: Tables<"profiles">;
@@ -6,13 +7,17 @@ interface Props {
 }
 
 function ProfileInfo({ profile, handleEditClick }: Props) {
+  const { user } = useUser();
   return (
     <>
-      <h2>{profile?.full_name}</h2>
+      <h2 style={{ overflowWrap: "break-word" }}>{profile?.full_name}</h2>
       <p className={"text-secondary fw-normal p-1"}>{profile.description}</p>
-      <button onClick={handleEditClick} className={"btn btn-secondary w-100"}>
-        Edit
-      </button>
+
+      {user?.id === profile.id && (
+        <button onClick={handleEditClick} className={"btn btn-secondary w-100"}>
+          Edit
+        </button>
+      )}
     </>
   );
 }
