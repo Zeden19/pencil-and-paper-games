@@ -7,7 +7,7 @@ import HomePage from "../HomePage.tsx";
 import AboutPage from "../About/AboutPage.tsx";
 import ContactPage from "../Contact/ContactPage.tsx";
 import Layout from "./Layout.tsx";
-import ProfilePage from "../Account/ProfilePage.tsx";
+import ProfilePage from "../Profile/ProfilePage.tsx";
 import supabase from "../services/supabase-client.ts";
 import LeaderboardPage from "../Leaderboard/LeaderboardPage.tsx";
 

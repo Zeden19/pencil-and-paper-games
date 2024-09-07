@@ -9,13 +9,15 @@ import { ReactNode } from "react";
 
 const className = "me-1";
 
-export const gameFields: {
+interface GameFields {
   label: "Tic Tac Toe" | "Hangman" | "Connect 4" | "Dots And Boxes";
   description: string;
   img: string;
   url: string;
   icon: ReactNode;
-}[] = [
+}
+
+export const gameFields: GameFields[] = [
   {
     label: "Tic Tac Toe",
     description: "The Definition of Simple.",

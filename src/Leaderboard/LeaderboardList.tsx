@@ -1,17 +1,6 @@
 import { Tables } from "../../database.types.ts";
 import styles from "./styles.module.css";
-
-function gamesPlayingMapping(game: string) {
-  switch (game) {
-    case "TicTacToe":
-      return "tictactoegamesplayed";
-    case "Hangman":
-      return "hangmangamesplayed";
-    case "Connect 4":
-      return "connect4gamesplayed";
-  }
-  return "tictactoegamesplayed";
-}
+import { gamesPlayingMapping } from "../services/gamesPlayingMapping.ts";
 
 interface Props {
   game: "Tic Tac Toe" | "Hangman" | "Connect 4" | "Dots And Boxes";
