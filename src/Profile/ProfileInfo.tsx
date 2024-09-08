@@ -1,13 +1,13 @@
 import { Tables } from "../../database.types.ts";
-import useUser from "../hooks/useUser.ts";
+import { User } from "@supabase/supabase-js";
 
 interface Props {
   profile: Tables<"profiles">;
   handleEditClick: () => void;
+  user: User | null;
 }
 
-function ProfileInfo({ profile, handleEditClick }: Props) {
-  const { user } = useUser();
+function ProfileInfo({ profile, handleEditClick, user }: Props) {
   return (
     <>
       <h2 style={{ overflowWrap: "break-word" }}>{profile?.full_name}</h2>

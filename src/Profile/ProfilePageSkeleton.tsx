@@ -4,10 +4,12 @@ import React from "react";
 function ProfilePageSkeleton() {
   const skeletonGames = [1, 2, 3, 4];
   return (
-    <div className={`${styles.container}`}>
+    <div className={`placeholder-glow ${styles.container}`}>
       <div className={`${styles.leftContainer}`}>
         {/*Image*/}
-        <span className={"rounded-circle mb-4 col-12 placeholder h-100"} />
+        <span
+          style={{ height: "17em" }}
+          className={"rounded-circle mb-4 col-12 placeholder placeholder-lg w-100"}></span>
 
         <div className={styles.nameDescription}>
           {/*Profile Info*/}

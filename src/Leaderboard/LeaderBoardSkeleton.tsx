@@ -4,9 +4,8 @@ import { gameFields } from "../Navigation/gameFields.tsx";
 function LeaderBoardSkeleton() {
   const leaderBoardSkeletons = [1, 2, 3, 4, 5];
   return (
-    <div className={"container text-center"}>
+    <div className={"container text-center placeholder-glow"}>
       <h1 className={`text-center mt-4 mb-1 placeholder-lg placeholder rounded col-4`} />
-
       <div
         style={{ margin: "auto" }}
         className={"row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4"}>
@@ -35,7 +34,6 @@ function LeaderBoardSkeleton() {
                     </li>
                   ))}
                 </ul>
-                
               </div>
             </div>
           </div>

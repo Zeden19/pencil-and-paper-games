@@ -9,12 +9,14 @@ import EditProfile from "./EditProfile.tsx";
 import ProfilePageSkeleton from "./ProfilePageSkeleton.tsx";
 import supabase from "../services/supabase-client.ts";
 import ProfileNotFound from "./ProfileNotFound.tsx";
+import useUser from "../hooks/useUser.ts";
 
 function ProfilePage() {
   const { id } = useParams<{ id: string }>();
   const [profile, setProfile] = useState<Tables<"profiles">>();
   const [error, setError] = useState(false)
   const [isEditing, setIsEditing] = useState(false);
+  const { user } = useUser();
 
   useEffect(() => {
     async function getUserData() {
@@ -48,7 +50,7 @@ function ProfilePage() {
               handleSaveClick={() => setIsEditing(false)}
             />
           ) : (
-            <ProfileInfo profile={profile} handleEditClick={() => setIsEditing(true)} />
+            <ProfileInfo user={user} profile={profile} handleEditClick={() => setIsEditing(true)} />
           )}
         </div>
       </div>
