@@ -6,18 +6,24 @@ import LeaderboardList from "./LeaderboardList.tsx";
 import supabase from "../services/supabase-client.ts";
 import { useEffect, useState } from "react";
 import { Tables } from "../../database.types.ts";
+import LeaderBoardSkeleton from "./LeaderBoardSkeleton.tsx";
 
 function LeaderboardPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [profiles, setProfiles] = useState<Tables<"profiles">[]>([]);
   useEffect(() => {
     async function getProfiles() {
       const { data: profileData } = await supabase.from("profiles").select();
-      if (profileData) setProfiles(profileData);
+      if (profileData) {
+        setProfiles(profileData);
+        setIsLoading(false);
+      }
     }
 
     getProfiles();
   }, []);
 
+  if (isLoading) return <LeaderBoardSkeleton />;
   return (
     <div className={"container text-center"}>
       <h1 className={`text-center pt-4 pb-1 ${styles.title}`}>
