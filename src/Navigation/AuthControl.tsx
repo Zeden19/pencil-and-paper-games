@@ -6,6 +6,7 @@ import useUser from "../hooks/useUser.ts";
 import { Link } from "react-router-dom";
 import toast from "../services/toast.ts";
 import Avatar from "../Avatar.tsx";
+import styles from "./styles.module.css";
 
 interface Props {
   iconRightSize: string;
@@ -13,6 +14,25 @@ interface Props {
 
 function AuthControl({ iconRightSize }: Props) {
   const { user, setUser } = useUser();
+
+  function toggleDropdown() {
+    const dropdown = document.getElementById("dropdown");
+
+    if (!dropdown) return;
+    if (dropdown.classList.contains(`${styles.slideIn}`)) {
+      dropdown.classList.remove(`${styles.slideIn}`);
+      dropdown.classList.add(`${styles.slideOut}`);
+
+      dropdown.addEventListener("animationend", function handleAnimationEnd() {
+        dropdown.style.display = "none";
+        dropdown.removeEventListener("animationend", handleAnimationEnd);
+      });
+    } else {
+      dropdown.style.display = "block";
+      dropdown.classList.remove(`${styles.slideOut}`);
+      dropdown.classList.add(`${styles.slideIn}`);
+    }
+  }
 
   async function signIn() {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -36,6 +56,7 @@ function AuthControl({ iconRightSize }: Props) {
       <div style={{ width: iconRightSize }} className={"dropdown nav-item"}>
         {user ? (
           <Avatar
+            onClick={toggleDropdown}
             dataBsToggle={"dropdown"}
             className={"nav-link dropdown-toggle w-100"}
             src={user.user_metadata.avatar_url}
@@ -47,9 +68,13 @@ function AuthControl({ iconRightSize }: Props) {
             aria-expanded="false"
             role={"button"}
             size={iconRightSize}
+            onClick={toggleDropdown}
           />
         )}
-        <ul className={"dropdown-menu dropdown-menu-start dropdown-menu-md-end"}>
+        <ul
+          onClick={toggleDropdown}
+          id={"dropdown"}
+          className={`dropdown-menu dropdown-menu-start dropdown-menu-md-end ${styles.animate}`}>
           {user ? (
             <>
               <li onClick={signOut} role={"button"} className={"dropdown-item"}>
