@@ -2,6 +2,7 @@ import { Tables } from "../../database.types.ts";
 import styles from "./styles.module.css";
 import { gamesPlayingMapping } from "../services/gamesPlayingMapping.ts";
 import { Link } from "react-router-dom";
+import Avatar from "../Avatar.tsx";
 
 interface Props {
   game: "Tic Tac Toe" | "Hangman" | "Connect 4" | "Dots And Boxes";
@@ -19,14 +20,11 @@ function LeaderboardList({ game, profiles }: Props) {
           <li
             key={profile.id}
             className={`py-2 border-bottom border-secondary-subtle ${styles.listElement}`}>
-            <div>
-              <img
-                style={{ height: "auto", width: "20%" }}
-                className={"rounded-circle border border-black border-2 me-3"}
-                alt={"avatar"}
-                src={profile.avatar ?? undefined}
-              />
-              <Link to={`/account/${profile.id}`} className={"link-secondary"}>{profile.full_name}</Link>
+            <div className={"text-start ms-4"}>
+              <Avatar className={"h-auto w-25 me-3"} src={profile.avatar!} />
+              <Link to={`/account/${profile.id}`} className={"link-secondary"}>
+                {profile.full_name}
+              </Link>
             </div>
             <div className={"me-2"}>{profile[gamesPlayed]}</div>
           </li>

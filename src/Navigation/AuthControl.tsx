@@ -5,6 +5,7 @@ import supabase from "../services/supabase-client.ts";
 import useUser from "../hooks/useUser.ts";
 import { Link } from "react-router-dom";
 import toast from "../services/toast.ts";
+import Avatar from "../Avatar.tsx";
 
 interface Props {
   iconRightSize: string;
@@ -34,13 +35,10 @@ function AuthControl({ iconRightSize }: Props) {
     <li className="d-flex">
       <div style={{ width: iconRightSize }} className={"dropdown nav-item"}>
         {user ? (
-          <img
+          <Avatar
+            dataBsToggle={"dropdown"}
+            className={"nav-link dropdown-toggle w-100"}
             src={user.user_metadata.avatar_url}
-            alt={"User avatar"}
-            className={"nav-link dropdown-toggle rounded-circle border border-black w-100"}
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            role={"button"}
           />
         ) : (
           <MdAccountCircle

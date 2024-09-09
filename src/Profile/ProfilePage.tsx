@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { Tables } from "../../database.types.ts";
-import genericAvatar from "../assets/genericAvatar.jpg";
 import GamesPlayed from "./GamesPlayed.tsx";
 import ProfileInfo from "./ProfileInfo.tsx";
 import EditProfile from "./EditProfile.tsx";
@@ -10,11 +9,12 @@ import ProfilePageSkeleton from "./ProfilePageSkeleton.tsx";
 import supabase from "../services/supabase-client.ts";
 import ProfileNotFound from "./ProfileNotFound.tsx";
 import useUser from "../hooks/useUser.ts";
+import Avatar from "../Avatar.tsx";
 
 function ProfilePage() {
   const { id } = useParams<{ id: string }>();
   const [profile, setProfile] = useState<Tables<"profiles">>();
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { user } = useUser();
 
@@ -25,23 +25,19 @@ function ProfilePage() {
         setProfile({ ...profileData[0] });
       }
       if (error) {
-        setError(true)
+        setError(true);
       }
     }
     getUserData();
   }, [id]);
 
-  if (error) return <ProfileNotFound/>
+  if (error) return <ProfileNotFound />;
   if (!profile) return <ProfilePageSkeleton />;
 
   return (
     <div className={`${styles.container}`}>
       <div className={`${styles.leftContainer}`}>
-        <img
-          src={profile.avatar ?? genericAvatar}
-          className={`rounded-circle border border-black border-2 mb-4 w-100`}
-          alt="avatar"
-        />
+        <Avatar className={"mb-4 w-100"} src={profile.avatar!} />
         <div className={styles.nameDescription}>
           {isEditing ? (
             <EditProfile
